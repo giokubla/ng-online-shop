@@ -1,0 +1,10 @@
+<nav nz-flex [nzJustify]="'space-between'" [nzAlign]="'center'">
+  <h1>
+    <nz-icon nzType="shop" nzTheme="outline" />
+    <span>Online Shop</span>
+  </h1>
+  <button (click)="signIn.emit()" nz-button  nzType="default" [nzLoading]="false">
+    <nz-icon nzType="poweroff" />
+    Log In
+  </button>
+</nav>

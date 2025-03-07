@@ -1,0 +1,13 @@
+<nz-layout>
+  <nz-header>
+    <app-navbar (signIn)="onSignIn()"/>
+  </nz-header>
+
+  <nz-content>
+
+  </nz-content>
+  @if(authorizationVisible()){
+    <app-login/>
+  }
+
+</nz-layout>
