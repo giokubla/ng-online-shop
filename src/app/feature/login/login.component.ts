@@ -34,9 +34,6 @@ export class LoginComponent {
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required),
   });
-  handleOk() {
-    this.close.emit();
-  }
   handleCancel() {
     this.close.emit();
   }
