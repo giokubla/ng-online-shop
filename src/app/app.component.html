@@ -5,6 +5,6 @@
 
   <nz-content> </nz-content>
   @if(authorizationVisible()){
-  <app-login />
+  <app-login (submit)="onSubmit($event)" (close)="onClose()" [isVisible]="authorizationVisible()" />
   }
 </nz-layout>

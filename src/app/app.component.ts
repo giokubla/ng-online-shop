@@ -6,6 +6,8 @@ import {
   NzHeaderComponent,
   NzLayoutComponent,
 } from 'ng-zorro-antd/layout';
+import { AuthService } from './core/services/auth.service';
+import { SignInDto } from './core/types/auth.types';
 
 @Component({
   selector: 'app-root',
@@ -22,8 +24,14 @@ import {
 export class AppComponent {
   authorizationVisible = signal<boolean>(false);
   title = 'ng-online-shop';
-
+  constructor(public service: AuthService){}
   onSignIn() {
     this.authorizationVisible.set(true);
+  }
+  onClose() {
+    this.authorizationVisible.set(false);
+  }
+  onSubmit(userInfo: SignInDto) {
+    this.service.signIn(userInfo).subscribe(el => console.log(el))
   }
 }
