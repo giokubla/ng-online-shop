@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { NavbarComponent } from './feature/navbar/navbar.component';
-import { LoginComponent } from './feature/login/login.component';
+import { LoginComponent } from './feature/auth/auth.component';
 import {
   NzContentComponent,
   NzHeaderComponent,
@@ -24,7 +24,7 @@ import { SignInDto } from './core/types/auth.types';
 export class AppComponent {
   authorizationVisible = signal<boolean>(false);
   title = 'ng-online-shop';
-  constructor(public service: AuthService){}
+  constructor(public service: AuthService) {}
   onSignIn() {
     this.authorizationVisible.set(true);
   }
@@ -32,6 +32,6 @@ export class AppComponent {
     this.authorizationVisible.set(false);
   }
   onSubmit(userInfo: SignInDto) {
-    this.service.signIn(userInfo).subscribe(el => console.log(el))
+    this.service.signIn(userInfo).subscribe((el) => console.log(el));
   }
 }
