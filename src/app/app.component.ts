@@ -7,8 +7,9 @@ import {
   NzLayoutComponent,
 } from 'ng-zorro-antd/layout';
 import { AuthService } from './core/services/auth.service';
-import { SignInDto } from './core/types/auth.types';
+import {SignInDto, SignUpDto} from './core/types/auth.types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 @Component({
   selector: 'app-root',
@@ -45,10 +46,11 @@ export class AppComponent {
   onClose() {
     this.authorizationVisible.set(false);
   }
-  onSubmit(userInfo: SignInDto) {
-    this.service
-      .signIn(userInfo)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+  onSubmitLogIn(userInfo: SignInDto) {
+    this.service.signIn(userInfo).subscribe();
   }
+  onSubmitSignUp(userInfo: SignUpDto) {
+    this.service.signUp(userInfo).subscribe()
+  }
+
 }

@@ -9,7 +9,8 @@
   </nz-content>
   @if(authorizationVisible()){
   <app-auth
-    (submit)="onSubmit($event)"
+    (submitLogIn)="onSubmitLogIn($event)"
+    (submitSignUp)="onSubmitSignUp($event)"
     (close)="onClose()"
     [isVisible]="authorizationVisible()"
   />
