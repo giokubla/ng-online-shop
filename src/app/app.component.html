@@ -1,9 +1,12 @@
 <nz-layout>
   <nz-header>
     <app-navbar (signIn)="onSignIn()" />
+    {{isAuthenticated()}}
   </nz-header>
 
-  <nz-content> </nz-content>
+  <nz-content>
+
+  </nz-content>
   @if(authorizationVisible()){
   <app-auth
     (submit)="onSubmit($event)"
