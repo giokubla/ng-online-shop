@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { NavbarComponent } from './feature/navbar/navbar.component';
 import { AuthComponent } from './feature/auth/auth.component';
 import {
@@ -7,7 +7,9 @@ import {
   NzLayoutComponent,
 } from 'ng-zorro-antd/layout';
 import { AuthService } from './core/services/auth.service';
-import { SignInDto, SignUpDto } from './core/types/auth.types';
+import {SignInDto, SignUpDto} from './core/types/auth.types';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 @Component({
   selector: 'app-root',
@@ -22,9 +24,22 @@ import { SignInDto, SignUpDto } from './core/types/auth.types';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  service = inject(AuthService);
+  destroyRef = inject(DestroyRef);
   authorizationVisible = signal<boolean>(false);
   title = 'ng-online-shop';
-  constructor(public service: AuthService) {}
+  isAuthenticated = signal<boolean>(false);
+  constructor() {
+    effect(() => {
+      if (this.service.userAuthenticated()) {
+        this.isAuthenticated.set(this.service.userAuthenticated());
+        this.service
+          .getUser()
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe();
+      }
+    });
+  }
   onSignIn() {
     this.authorizationVisible.set(true);
   }

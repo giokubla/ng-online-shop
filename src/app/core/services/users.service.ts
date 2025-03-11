@@ -1,10 +1,11 @@
-import {Injectable, signal} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
-  userAuthenticated$ = signal<boolean>(false);
-  token$ = signal<string>('');
-  constructor() { }
+  http = inject(HttpClient);
+
+  constructor() {}
 }
