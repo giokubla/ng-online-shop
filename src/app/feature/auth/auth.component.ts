@@ -13,6 +13,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { SignInDto } from '../../core/types/auth.types';
 
 @Component({
   selector: 'app-auth',
@@ -32,7 +33,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 export class AuthComponent {
   @Input() public isVisible: boolean = false;
   @Output() public close = new EventEmitter<void>();
-  @Output() public submit = new EventEmitter();
+  @Output() public submitLogIn = new EventEmitter();
+  @Output() public submitSignUp = new EventEmitter();
   public isLogInVisible = signal(true)
   public title = computed(() =>
     this.isLogInVisible() ? 'Enter your Email and Password' : 'Fill in all the fields'
@@ -58,10 +60,10 @@ export class AuthComponent {
     this.close.emit();
   }
   submitForm() {
-    this.submit.emit(this.signInForm.value);
+    this.submitLogIn.emit(this.signInForm.value);
   }
   signUp() {
-    
+    this.submitSignUp.emit(this.signUpForm.value)
   }
   changeAuthMode() {
     this.isLogInVisible.update(visible => !visible)
