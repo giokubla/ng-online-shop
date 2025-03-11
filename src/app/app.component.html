@@ -1,7 +1,6 @@
 <nz-layout>
   <nz-header>
-    <app-navbar (signIn)="onSignIn()" />
-    {{isAuthenticated()}}
+    <app-navbar [userData]="userData" [isAuthenticated]="isAuthenticated()" (signIn)="onSignIn()" />
   </nz-header>
 
   <nz-content>

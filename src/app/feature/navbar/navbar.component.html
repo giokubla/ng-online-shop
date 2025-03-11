@@ -3,8 +3,14 @@
     <nz-icon nzType="shop" nzTheme="outline" />
     <span>Online Shop</span>
   </h1>
-  <button (click)="signIn.emit()" nz-button  nzType="default" [nzLoading]="false">
-    <nz-icon nzType="poweroff" />
-    Log In
-  </button>
+  @if (!isAuthenticated()) {
+    <button (click)="signIn.emit()" nz-button  nzType="default" [nzLoading]="false">
+      <nz-icon nzType="poweroff" />
+      Log In
+    </button>
+  } @else {
+    <div>
+      <span>{{userData?.firstName}}</span>
+    </div>
+  }
 </nav>

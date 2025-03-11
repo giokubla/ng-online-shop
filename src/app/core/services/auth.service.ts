@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { SignInDto, SignUpDto, UserToken } from '../types/auth.types';
-import { tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { UserDto } from '../types/user.types';
 
@@ -11,15 +11,15 @@ import { UserDto } from '../types/user.types';
 export class AuthService {
   cookieService = inject(CookieService);
   token = signal<string>('');
-  user = signal<UserDto>({});
+  user$ = new BehaviorSubject<UserDto | null>(null)
   userAuthenticated = computed(() => !!this.token());
   constructor(private http: HttpClient) {
     this.token.set(this.cookieService.get('access_token'));
   }
   getUser() {
-    return this.http.get('https://api.everrest.educata.dev/auth').pipe(
+    return this.http.get<UserDto>('https://api.everrest.educata.dev/auth').pipe(
       tap((user) => {
-        this.user.set(user);
+        this.user$.next(user);
       }),
     );
   }
