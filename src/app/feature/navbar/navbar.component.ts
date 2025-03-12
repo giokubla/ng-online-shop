@@ -18,4 +18,5 @@ export class NavbarComponent {
   signIn = output<void>()
   isAuthenticated = input<boolean>() 
   @Input() userData!: UserDto | null;
+  public altAvatar: string = "<i class='fa-solid fa-user'></i>"
 }

@@ -10,6 +10,7 @@ import { AuthService } from './core/services/auth.service';
 import {SignInDto, SignUpDto} from './core/types/auth.types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserDto } from './core/types/user.types';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { UserDto } from './core/types/user.types';
     NzContentComponent,
     NzLayoutComponent,
     AuthComponent,
+    RouterModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
