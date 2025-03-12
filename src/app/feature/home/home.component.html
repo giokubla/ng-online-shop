@@ -1,0 +1,38 @@
+<nz-layout>
+  <nz-header>
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nz-flex
+      nzJustify="space-between"
+      nzMode="horizontal"
+    >
+      @for (item of productBrands; track $index) {
+        <li nz-menu-item>{{ item }}</li>
+      }
+    </ul>
+  </nz-header>
+  <nz-content>
+    <nz-breadcrumb nz-flex nzJustify="space-between">
+      @for (item of productCategories; track $index) {
+        <button nz-button nzType="primary">{{ item.name }}</button>
+      }
+    </nz-breadcrumb>
+    <div class="inner-content" nz-flex nzJustify="space-around" nzWrap="wrap">
+      @for (item of products; track $index) {
+        <div routerLink="/product-details/{{ item._id }}">
+          <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
+            <nz-card-meta
+              [nzTitle]="item.title"
+              [nzDescription]="item.description"
+            ></nz-card-meta>
+            <p>{{ item.price.current }}</p>
+          </nz-card>
+          <ng-template #coverTemplate>
+            <img alt="example" [src]="item.images[0]" />
+          </ng-template>
+        </div>
+      }
+    </div>
+  </nz-content>
+</nz-layout>
