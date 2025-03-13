@@ -13,11 +13,21 @@
     </ul>
   </nz-header>
   <nz-content>
-    <nz-breadcrumb nz-flex nzJustify="space-between">
-      @for (item of productCategories(); track $index) {
-        <button nz-button nzType="primary">{{ item.name }}</button>
-      }
-    </nz-breadcrumb>
+    <div class="second-nav" nz-flex nzJustify="space-between">
+      <nz-button-group>
+        @for (item of productCategories(); track $index) {
+          <button nz-button nzType="primary">{{ item.name }}</button>
+        }
+      </nz-button-group>
+      <nz-pagination
+        (nzPageSizeChange)="onPageSizeChange($event)"
+        (nzPageIndexChange)="onPageIndexChange($event)"
+        [nzPageIndex]="pageIndex()"
+        [nzTotal]="totalProducts()"
+        nzShowSizeChanger
+        [nzPageSize]="productsLengthOnPage()"
+      ></nz-pagination>
+    </div>
     <div class="inner-content" nz-flex nzJustify="space-around" nzWrap="wrap">
       @for (item of products(); track $index) {
         <div [routerLink]="['/product-details', item._id]">

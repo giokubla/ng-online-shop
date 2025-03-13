@@ -23,3 +23,7 @@ nz-content {
   padding: 24px;
   min-height: 280px;
 }
+
+.second-nav {
+  padding: 2rem;
+}
