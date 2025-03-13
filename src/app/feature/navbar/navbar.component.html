@@ -1,16 +1,39 @@
 <nav nz-flex [nzJustify]="'space-between'" [nzAlign]="'center'">
-  <h1>
+  <h1 nz-flex nzGap="small">
     <nz-icon nzType="shop" nzTheme="outline" />
     <span>Online Shop</span>
   </h1>
   @if (!isAuthenticated()) {
-    <button (click)="signIn.emit()" nz-button  nzType="default" [nzLoading]="false">
+    <button
+      (click)="signIn.emit()"
+      nz-button
+      nzType="default"
+      [nzLoading]="false"
+    >
       <nz-icon nzType="poweroff" />
       Log In
     </button>
   } @else {
-    <div>
-      <span>{{userData?.firstName}}</span>
+    <div nz-flex nzAlign="center" nzGap="large">
+      <div nz-flex [nzGap]="'small'" nzAlign="center">
+        <nz-avatar
+          nzText="user"
+          nzIcon="user"
+          [nzSrc]="userData()?.avatar"
+        ></nz-avatar>
+        <span id="fullName" [class.show]="userData()">{{
+          userData()?.firstName + " " + userData()?.lastName | uppercase
+        }}</span>
+      </div>
+      <button
+        (click)="signOut.emit()"
+        nz-button
+        nzType="default"
+        [nzLoading]="false"
+      >
+        <nz-icon nzType="logout" />
+        Sign Out
+      </button>
     </div>
   }
 </nav>

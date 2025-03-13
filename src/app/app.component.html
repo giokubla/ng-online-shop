@@ -1,17 +1,19 @@
 <nz-layout>
   <nz-header>
-    <app-navbar [userData]="userData" [isAuthenticated]="isAuthenticated()" (signIn)="onSignIn()" />
+    <app-navbar
+      [userData]="userData()"
+      [isAuthenticated]="isAuthenticated()"
+      (signOut)="onSignOut()"
+      (signIn)="onSignIn()"
+    />
   </nz-header>
-
-  <nz-content>
-
-  </nz-content>
-  @if(authorizationVisible()){
-  <app-auth
-    (submitLogIn)="onSubmitLogIn($event)"
-    (submitSignUp)="onSubmitSignUp($event)"
-    (close)="onClose()"
-    [isVisible]="authorizationVisible()"
-  />
+  <nz-content> </nz-content>
+  @if (authorizationVisible()) {
+    <app-auth
+      (submitLogIn)="onSubmitLogIn($event)"
+      (submitSignUp)="onSubmitSignUp($event)"
+      (close)="onClose()"
+      [isVisible]="authorizationVisible()"
+    />
   }
 </nz-layout>

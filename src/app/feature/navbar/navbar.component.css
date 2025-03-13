@@ -1,0 +1,21 @@
+nav{
+  height: 100%;
+}
+
+#fullName {
+  max-width: 300px;
+  opacity: 0.1;
+  transition: opacity 1s ease-in-out; /* Smooth opacity transition */
+}
+
+#fullName.show {
+  /* Show the full name with smooth transition */
+  opacity: 1;
+}
+nz-avatar {
+  transition: transform 0.3s ease;
+}
+
+nz-avatar:hover {
+  transform: scale(1.1); /* Smooth scale effect on hover */
+}
