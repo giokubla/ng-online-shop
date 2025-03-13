@@ -8,8 +8,6 @@
 
 [nz-menu] {
   line-height: 64px;
-  /* display: flex;
-  justify-content: space-between; */
 }
 
 nz-breadcrumb {
@@ -18,10 +16,6 @@ nz-breadcrumb {
 
 nz-content {
   padding: 0 50px;
-}
-
-nz-footer {
-  text-align: center;
 }
 
 .inner-content {
