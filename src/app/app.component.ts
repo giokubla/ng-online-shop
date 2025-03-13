@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, Output, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { NavbarComponent } from './feature/navbar/navbar.component';
 import { AuthComponent } from './feature/auth/auth.component';
 import {
@@ -7,10 +7,8 @@ import {
   NzLayoutComponent,
 } from 'ng-zorro-antd/layout';
 import { AuthService } from './core/services/auth.service';
-import {SignInDto, SignUpDto} from './core/types/auth.types';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SignInDto, SignUpDto } from './core/types/auth.types';
 import { UserDto } from './core/types/user.types';
-
 
 @Component({
   selector: 'app-root',
@@ -25,22 +23,15 @@ import { UserDto } from './core/types/user.types';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  userData!: UserDto | null;
-  service = inject(AuthService);
-  destroyRef = inject(DestroyRef);
-  authorizationVisible = signal<boolean>(false);
   title = 'ng-online-shop';
+  private authService = inject(AuthService);
+  protected readonly userData = signal<UserDto | null>(null);
+  authorizationVisible = signal<boolean>(false);
   isAuthenticated = signal<boolean>(false);
   constructor() {
-    this.service.user$.subscribe(user => this.userData = user)
     effect(() => {
-      if (this.service.userAuthenticated()) {
-        this.isAuthenticated.set(this.service.userAuthenticated());
-        this.service
-          .getUser()
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe();
-      }
+      this.userData.set(this.authService.user());
+      this.isAuthenticated.set(this.authService.isAuthenticated());
     });
   }
   onSignIn() {
@@ -50,10 +41,17 @@ export class AppComponent {
     this.authorizationVisible.set(false);
   }
   onSubmitLogIn(userInfo: SignInDto) {
-    this.service.signIn(userInfo).subscribe(el => this.authorizationVisible.set(false));
+    this.authService
+      .login(userInfo)
+      .subscribe(() => this.authorizationVisible.set(false));
   }
   onSubmitSignUp(userInfo: SignUpDto) {
-    this.service.signUp(userInfo).subscribe(el => this.authorizationVisible.set(false))
+    this.authService
+      .signUp(userInfo)
+      .subscribe(() => this.authorizationVisible.set(false));
   }
 
+  onSignOut() {
+    this.authService.logout();
+  }
 }
