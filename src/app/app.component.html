@@ -1,6 +1,11 @@
 <nz-layout>
   <nz-header>
-    <app-navbar [userData]="userData" [isAuthenticated]="isAuthenticated()" (signIn)="onSignIn()" />
+    <app-navbar
+      [userData]="userData()"
+      [isAuthenticated]="isAuthenticated()"
+      (signOut)="onSignOut()"
+      (signIn)="onSignIn()"
+    />
   </nz-header>
 
   <nz-content>
