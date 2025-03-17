@@ -1,13 +1,19 @@
-import { Component, signal } from '@angular/core';
-import { ProductsService } from '../../core/services/products.service';
+import { Component, computed, inject } from '@angular/core';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { Product, ProductCategories } from '../../core/types/product.types';
-import { RouterModule } from '@angular/router';
+import { BaseSearchDto, Category } from '../../core/types/product.types';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { httpResource } from '@angular/common/http';
+import { buildParamsFromQuery } from '../../core/utils/query-params';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { NzEmptyComponent } from 'ng-zorro-antd/empty';
+import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -19,108 +25,58 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzCardModule,
     RouterModule,
     NzPaginationModule,
+    NzSpinComponent,
+    NzEmptyComponent,
+    NzRadioGroupComponent,
+    NzRadioComponent,
+    FormsModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  public productsLengthOnPage = signal<number>(10);
-  public pageIndex = signal<number>(1);
-  public totalProducts = signal<number>(0);
-  public products = signal<Product[]>([]);
-  public productBrands = signal<string[]>([]);
-  public productCategories = signal<ProductCategories[]>([]);
-  public choosenCategory = signal<string>('');
-  public choosenBrand = signal<string>('');
-  public whichFunctionIsUsed = signal<string>('all');
-  constructor(public service: ProductsService) {
-    this.getProductBrands();
-    this.getProducts();
-    this.getProductCategories();
-  }
-  getProducts() {
-    this.service
-      .products(this.pageIndex(), this.productsLengthOnPage())
-      .subscribe((el) => {
-        this.products.set(el.products);
-        this.totalProducts.set(el.total);
-      });
-  }
-  getProductBrands() {
-    this.service.productsBrands().subscribe({
-      next: (el) => {
-        this.productBrands.set(el);
-      },
-      error: (err) => {
-        err;
-      },
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private routeQueryParams = toSignal(this.route.queryParams);
+
+  queryParams = computed(() => {
+    const params = this.routeQueryParams() || {};
+    return {
+      page_size: Number(params['page_size']) || 10,
+      page_index: Number(params['page_index']) || 1,
+      brand: params['brand'],
+      category_id: params['category_id'],
+    };
+  });
+  page_size = computed(() => this.queryParams().page_size);
+  page_index = computed(() => this.queryParams().page_index);
+  category = computed(() =>
+    this.categories
+      .value()
+      ?.find((c) => c.id === this.queryParams().category_id),
+  );
+  totalProducts = httpResource<BaseSearchDto>(() => ({
+    url: 'https://api.everrest.educata.dev/shop/products/search',
+    params: buildParamsFromQuery(this.queryParams()),
+  }));
+  brands = httpResource<string[]>(
+    () => 'https://api.everrest.educata.dev/shop/products/brands',
+  );
+  categories = httpResource<Category[]>(
+    () => 'https://api.everrest.educata.dev/shop/products/categories',
+  );
+
+  onPageSizeChange(page_size: number) {
+    this.router.navigate([], {
+      queryParams: { page_size },
+      queryParamsHandling: 'merge',
     });
   }
-  getProductCategories() {
-    this.service
-      .productCategories()
-      .subscribe((el) => this.productCategories.set(el));
-  }
-  onPageSizeChange(size: number) {
-    this.productsLengthOnPage.set(size);
-    this.getProducts();
-  }
-  onPageIndexChange(index: number) {
-    if (this.whichFunctionIsUsed() === 'all') {
-      this.pageIndex.set(index);
-      this.getProducts();
-    } else if (this.whichFunctionIsUsed() === 'categorySearch') {
-      this.pageIndex.set(index);
-      this.service
-        .productsByCategory(
-          this.choosenCategory(),
-          this.pageIndex(),
-          this.productsLengthOnPage(),
-        )
-        .subscribe((el) => {
-          this.products.set(el.products);
-          this.totalProducts.set(el.total);
-        });
-    } else if (this.whichFunctionIsUsed() === 'brandSearch') {
-      this.pageIndex.set(index);
-      this.service
-        .productsByBrand(
-          this.choosenBrand(),
-          this.pageIndex(),
-          this.productsLengthOnPage(),
-        )
-        .subscribe((el) => {
-          this.products.set(el.products);
-          this.totalProducts.set(el.total);
-        });
-    }
-  }
-  getProductsByCategory(categoryId: string) {
-    this.service
-      .productsByCategory(
-        categoryId,
-        this.pageIndex(),
-        this.productsLengthOnPage(),
-      )
-      .subscribe((el) => {
-        this.products.set(el.products);
-        this.totalProducts.set(el.total);
-        if (categoryId === '1') {
-          this.choosenCategory.set('1');
-        } else {
-          this.choosenCategory.set('2');
-        }
-      });
-    this.whichFunctionIsUsed.set('categorySearch');
-  }
-  getProductsByBrand(brandName: string) {
-    this.service
-      .productsByBrand(brandName, this.pageIndex(), this.productsLengthOnPage())
-      .subscribe((el) => {
-        this.products.set(el.products);
-        this.totalProducts.set(el.total);
-        this.choosenBrand.set(brandName);
-      });
-    this.whichFunctionIsUsed.set('brandSearch');
+
+  onPageIndexChange(page_index: number) {
+    this.router.navigate([], {
+      queryParams: { page_index },
+      queryParamsHandling: 'merge',
+    });
   }
 }

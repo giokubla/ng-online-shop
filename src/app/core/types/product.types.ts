@@ -1,4 +1,4 @@
-export interface TotalProducts {
+export interface BaseSearchDto {
   total: number;
   limit: number;
   page: number;
@@ -29,12 +29,6 @@ export interface Price {
 }
 
 export interface Category {
-  id: string;
-  name: string;
-  image: string;
-}
-
-export interface ProductCategories {
   id: string;
   name: string;
   image: string;
