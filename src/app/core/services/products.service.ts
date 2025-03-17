@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product, ProductCategories, TotalProducts } from '../types/product.types';
+import {
+  Product,
+  ProductCategories,
+  TotalProducts,
+} from '../types/product.types';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +22,23 @@ export class ProductsService {
     );
   }
   productById(productId: string) {
-    return this.http.get<Product>(`https://api.everrest.educata.dev/shop/products/id/${productId}`)
+    return this.http.get<Product>(
+      `https://api.everrest.educata.dev/shop/products/id/${productId}`,
+    );
   }
   productCategories() {
-    return this.http.get<ProductCategories[]>('https://api.everrest.educata.dev/shop/products/categories')
+    return this.http.get<ProductCategories[]>(
+      'https://api.everrest.educata.dev/shop/products/categories',
+    );
+  }
+  productsByCategory(categoryId: string, pageIndex: number, pageSize: number) {
+    return this.http.get<TotalProducts>(
+      `https://api.everrest.educata.dev/shop/products/category/${categoryId}?page_index=${pageIndex}&page_size=${pageSize}`,
+    );
+  }
+  productsByBrand(brandName: string, pageIndex: number, pageSize: number) {
+    return this.http.get<TotalProducts>(
+      `https://api.everrest.educata.dev/shop/products/brand/${brandName}?page_index=${pageIndex}&page_size=${pageSize}`,
+    );
   }
 }

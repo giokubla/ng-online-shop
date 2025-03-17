@@ -7,8 +7,9 @@
       nzJustify="space-between"
       nzMode="horizontal"
     >
+      <li (click)="getProducts()" nz-menu-item>all</li>
       @for (item of productBrands(); track $index) {
-        <li nz-menu-item>{{ item }}</li>
+        <li (click)="getProductsByBrand(item)" nz-menu-item>{{ item }}</li>
       }
     </ul>
   </nz-header>
@@ -16,7 +17,14 @@
     <div class="second-nav" nz-flex nzJustify="space-between">
       <nz-button-group>
         @for (item of productCategories(); track $index) {
-          <button nz-button nzType="primary">{{ item.name }}</button>
+          <button
+            (click)="getProductsByCategory(item.id)"
+            nz-button
+            nzType="primary"
+          >
+            {{ item.name }}
+            <img class="category-img" [src]="item.image" alt="" />
+          </button>
         }
       </nz-button-group>
       <nz-pagination

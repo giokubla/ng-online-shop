@@ -30,10 +30,21 @@ export class HomeComponent {
   public products = signal<Product[]>([]);
   public productBrands = signal<string[]>([]);
   public productCategories = signal<ProductCategories[]>([]);
+  public choosenCategory = signal<string>('');
+  public choosenBrand = signal<string>('');
+  public whichFunctionIsUsed = signal<string>('all');
   constructor(public service: ProductsService) {
     this.getProductBrands();
     this.getProducts();
     this.getProductCategories();
+  }
+  getProducts() {
+    this.service
+      .products(this.pageIndex(), this.productsLengthOnPage())
+      .subscribe((el) => {
+        this.products.set(el.products);
+        this.totalProducts.set(el.total);
+      });
   }
   getProductBrands() {
     this.service.productsBrands().subscribe({
@@ -45,14 +56,6 @@ export class HomeComponent {
       },
     });
   }
-  getProducts() {
-    this.service
-      .products(this.pageIndex(), this.productsLengthOnPage())
-      .subscribe((el) => {
-        this.products.set(el.products);
-        this.totalProducts.set(el.total);
-      });
-  }
   getProductCategories() {
     this.service
       .productCategories()
@@ -63,7 +66,61 @@ export class HomeComponent {
     this.getProducts();
   }
   onPageIndexChange(index: number) {
-    this.pageIndex.set(index);
-    this.getProducts();
+    if (this.whichFunctionIsUsed() === 'all') {
+      this.pageIndex.set(index);
+      this.getProducts();
+    } else if (this.whichFunctionIsUsed() === 'categorySearch') {
+      this.pageIndex.set(index);
+      this.service
+        .productsByCategory(
+          this.choosenCategory(),
+          this.pageIndex(),
+          this.productsLengthOnPage(),
+        )
+        .subscribe((el) => {
+          this.products.set(el.products);
+          this.totalProducts.set(el.total);
+        });
+    } else if (this.whichFunctionIsUsed() === 'brandSearch') {
+      this.pageIndex.set(index);
+      this.service
+        .productsByBrand(
+          this.choosenBrand(),
+          this.pageIndex(),
+          this.productsLengthOnPage(),
+        )
+        .subscribe((el) => {
+          this.products.set(el.products);
+          this.totalProducts.set(el.total);
+        });
+    }
+  }
+  getProductsByCategory(categoryId: string) {
+    this.service
+      .productsByCategory(
+        categoryId,
+        this.pageIndex(),
+        this.productsLengthOnPage(),
+      )
+      .subscribe((el) => {
+        this.products.set(el.products);
+        this.totalProducts.set(el.total);
+        if (categoryId === '1') {
+          this.choosenCategory.set('1');
+        } else {
+          this.choosenCategory.set('2');
+        }
+      });
+    this.whichFunctionIsUsed.set('categorySearch');
+  }
+  getProductsByBrand(brandName: string) {
+    this.service
+      .productsByBrand(brandName, this.pageIndex(), this.productsLengthOnPage())
+      .subscribe((el) => {
+        this.products.set(el.products);
+        this.totalProducts.set(el.total);
+        this.choosenBrand.set(brandName);
+      });
+    this.whichFunctionIsUsed.set('brandSearch');
   }
 }

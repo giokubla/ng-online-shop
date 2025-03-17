@@ -27,3 +27,8 @@ nz-content {
 .second-nav {
   padding: 2rem;
 }
+
+.category-img {
+  width: 20px;
+  height: 20px;
+}
