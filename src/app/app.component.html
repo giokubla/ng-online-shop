@@ -7,13 +7,16 @@
       (signIn)="onSignIn()"
     />
   </nz-header>
-  <nz-content> </nz-content>
-  @if (authorizationVisible()) {
-    <app-auth
-      (submitLogIn)="onSubmitLogIn($event)"
-      (submitSignUp)="onSubmitSignUp($event)"
-      (close)="onClose()"
-      [isVisible]="authorizationVisible()"
-    />
+
+  <nz-content>
+    <router-outlet></router-outlet>
+  </nz-content>
+  @if(authorizationVisible()){
+  <app-auth
+    (submitLogIn)="onSubmitLogIn($event)"
+    (submitSignUp)="onSubmitSignUp($event)"
+    (close)="onClose()"
+    [isVisible]="authorizationVisible()"
+  />
   }
 </nz-layout>

@@ -9,6 +9,7 @@ import {
 import { AuthService } from './core/services/auth.service';
 import { SignInDto, SignUpDto } from './core/types/auth.types';
 import { UserDto } from './core/types/user.types';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import { UserDto } from './core/types/user.types';
     NzContentComponent,
     NzLayoutComponent,
     AuthComponent,
+    RouterModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
