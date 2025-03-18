@@ -1,0 +1,39 @@
+.main-div {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding-inline: 20px;
+}
+
+.main-div-child {
+  width: 50%;
+}
+
+.description-sector {
+}
+
+nz-carousel {
+    width: 500px;
+    height: 500px;
+}
+
+sub {
+    color: black;
+}
+
+small {
+    color: black;
+}
+.line {
+    color: red;
+    text-decoration: line-through;
+}
+
+.price-span {
+    color: green;
+}
+
+img {
+    object-fit: cover;
+    object-position: center;
+}

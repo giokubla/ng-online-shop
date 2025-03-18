@@ -1,1 +1,66 @@
-<p>product-details works!</p>
+<div class="main-div">
+  <div class="main-div-child">
+    <nz-carousel nzAutoPlay>
+      @for (index of product.images; track index) {
+        <div nz-carousel-content>
+          <img [src]="index" alt="" />
+        </div>
+      }
+    </nz-carousel>
+  </div>
+  <div class="main-div-child description-sector">
+    <h3>Tecnology: {{ product.category.name }} {{ product.brand }}</h3>
+    <nz-list nzBordered>
+      <nz-list-item>
+        <span nz-typography><mark>Brand</mark>: {{ product.brand }}</span>
+      </nz-list-item>
+      <nz-list-item>
+        <span nz-typography><mark>Model</mark>: {{ product.title }} </span>
+      </nz-list-item>
+      <nz-list-item>
+        <span nz-typography
+          ><mark>Made Date</mark>: {{ product.issueDate }}</span
+        >
+      </nz-list-item>
+      <nz-list-item>
+        <span nz-typography class="price-span"
+          ><mark>Price</mark>: {{ product.price.current }}$
+          @if (product.price.current !== product.price.beforeDiscount) {
+            <br />
+            <small>Previous Price: </small>
+            <small class="line"> {{ product.price.beforeDiscount }}$</small>
+            <br />
+            <sub
+              >Discount precentenge:
+              {{ product.price.discountPercentage }}%</sub
+            >
+          }
+        </span>
+      </nz-list-item>
+      <nz-list-item>
+        <span nz-typography
+          ><mark>Rate</mark>: {{ product.rating }} &#9733;</span
+        >
+      </nz-list-item>
+      <nz-list-item>
+        <span nz-typography><mark>Stock</mark>: {{ product.stock }}</span>
+      </nz-list-item>
+      <nz-list-item>
+        <span nz-typography
+          ><mark>Warranty</mark>: {{ product.warranty }} YEAR</span
+        >
+      </nz-list-item>
+      <nz-list-item>
+        <span nz-typography
+          ><mark>Description</mark>: {{ product.description }}</span
+        >
+      </nz-list-item>
+      <div nz-flex>
+        <button nz-button nzType="default" nzBlock>Add To Cart</button>
+        <button routerLink="/home" nz-button nzType="default" nzBlock>
+          Back
+        </button>
+      </div>
+    </nz-list>
+  </div>
+</div>

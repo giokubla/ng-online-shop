@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -38,6 +38,7 @@ export class HomeComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private routeQueryParams = toSignal(this.route.queryParams);
+  public noImage = signal<string>('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNNLEL-qmmLeFR1nxJuepFOgPYfnwHR56vcw&s')
 
   queryParams = computed(() => {
     const params = this.routeQueryParams() || {};

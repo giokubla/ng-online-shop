@@ -68,7 +68,7 @@
               <p>{{ item.price.current }}</p>
             </nz-card>
             <ng-template #coverTemplate>
-              <img alt="example" [src]="item.images[0]" />
+              <img [src]="!item.images[0] ? noImage() : item.images[0]" />
             </ng-template>
           </div>
         } @empty {
@@ -76,5 +76,14 @@
         }
       }
     </div>
+    <br />
+    <nz-pagination
+      (nzPageSizeChange)="onPageSizeChange($event)"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      [nzPageIndex]="page_index()"
+      [nzTotal]="totalProducts.value()?.total"
+      nzShowSizeChanger
+      [nzPageSize]="page_size()"
+    ></nz-pagination>
   </nz-content>
 </nz-layout>
