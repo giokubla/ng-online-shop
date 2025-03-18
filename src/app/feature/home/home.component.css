@@ -5,7 +5,20 @@
   margin: 16px 24px 16px 0;
   float: left;
 }
-
+nz-card {
+  height: 500px;
+  width: 250px;
+  overflow: hidden;
+}
+nz-spin {
+  width: 100%;
+}
+nz-empty {
+  width: 100%;
+}
+nz-card img {
+  height: 200px;
+}
 [nz-menu] {
   line-height: 64px;
 }

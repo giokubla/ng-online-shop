@@ -1,28 +1,27 @@
 <nz-layout>
   <nz-header>
-    <ul
-      nz-menu
-      nzTheme="dark"
-      nz-flex
-      nzJustify="space-between"
-      nzMode="horizontal"
-    >
-      @if (brands.isLoading()) {
-        <nz-spin nzSimple nzSize="small"></nz-spin>
-      } @else {
+    @if (!brands.isLoading()) {
+      <ul
+        nz-menu
+        nzTheme="dark"
+        nz-flex
+        nzJustify="space-between"
+        nzMode="horizontal"
+      >
         <li nz-menu-item routerLink [queryParams]="{}">All</li>
         @for (item of brands.value(); track $index) {
           <li
             nz-menu-item
             routerLink
+            routerLinkActive="ant-menu-item-selected"
             [queryParams]="{ brand: item }"
             queryParamsHandling="merge"
           >
             {{ item }}
           </li>
         }
-      }
-    </ul>
+      </ul>
+    }
   </nz-header>
   <nz-content>
     <div class="second-nav" nz-flex nzJustify="space-between">
@@ -51,16 +50,17 @@
     <div
       class="inner-content container"
       nz-flex
-      nzJustify="space-around"
+      nzJustify="start"
+      nzAlign="center"
       nzWrap="wrap"
-      nzGap="middle"
+      nzGap="large"
     >
       @if (totalProducts.isLoading()) {
-        <nz-spin nzSimple nzSize="large"></nz-spin>
+        <nz-spin nzSize="large"></nz-spin>
       } @else {
         @for (item of totalProducts.value()?.products; track $index) {
           <div [routerLink]="['/product-details', item._id]">
-            <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
+            <nz-card nzHoverable [nzCover]="coverTemplate">
               <nz-card-meta
                 [nzTitle]="item.title"
                 [nzDescription]="item.description"
