@@ -1,11 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { NavbarComponent } from './feature/navbar/navbar.component';
 import { AuthComponent } from './feature/auth/auth.component';
-import {
-  NzContentComponent,
-  NzHeaderComponent,
-  NzLayoutComponent,
-} from 'ng-zorro-antd/layout';
 import { AuthService } from './core/services/auth.service';
 import { SignInDto, SignUpDto } from './core/types/auth.types';
 import { UserDto } from './core/types/user.types';
@@ -13,14 +8,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    NavbarComponent,
-    NzHeaderComponent,
-    NzContentComponent,
-    NzLayoutComponent,
-    AuthComponent,
-    RouterModule,
-  ],
+  imports: [NavbarComponent, AuthComponent, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

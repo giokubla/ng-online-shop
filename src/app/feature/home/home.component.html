@@ -1,89 +1,83 @@
-<nz-layout>
-  <nz-header>
-    @if (!brands.isLoading()) {
-      <ul
-        nz-menu
-        nzTheme="dark"
-        nz-flex
-        nzJustify="space-between"
-        nzMode="horizontal"
+<div class="side-filter">
+  @if (!brands.isLoading()) {
+    <ul class="brands-list">
+      <li
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLink
+        [queryParams]="{}"
       >
-        <li nz-menu-item routerLink [queryParams]="{}">All</li>
-        @for (item of brands.value(); track $index) {
-          <li
-            nz-menu-item
-            routerLink
-            routerLinkActive="ant-menu-item-selected"
-            [queryParams]="{ brand: item }"
-            queryParamsHandling="merge"
-          >
-            {{ item }}
-          </li>
-        }
-      </ul>
-    }
-  </nz-header>
-  <nz-content>
-    <div class="second-nav" nz-flex nzJustify="space-between">
-      <nz-radio-group [ngModel]="category()?.name" nzButtonStyle="solid">
-        @for (item of categories.value(); track $index) {
-          <label
-            routerLink
-            [queryParams]="{ category_id: item.id }"
-            queryParamsHandling="merge"
-            nz-radio-button
-            [nzValue]="item.name"
-            >{{ item.name }}</label
-          >
-        }
-      </nz-radio-group>
-      <nz-button-group> </nz-button-group>
-      <nz-pagination
-        (nzPageSizeChange)="onPageSizeChange($event)"
-        (nzPageIndexChange)="onPageIndexChange($event)"
-        [nzPageIndex]="page_index()"
-        [nzTotal]="totalProducts.value()?.total"
-        nzShowSizeChanger
-        [nzPageSize]="page_size()"
-      ></nz-pagination>
-    </div>
-    <div
-      class="inner-content container"
-      nz-flex
-      nzJustify="start"
-      nzAlign="center"
-      nzWrap="wrap"
-      nzGap="large"
-    >
-      @if (totalProducts.isLoading()) {
-        <nz-spin nzSize="large"></nz-spin>
-      } @else {
-        @for (item of totalProducts.value()?.products; track $index) {
-          <div [routerLink]="['/product-details', item._id]">
-            <nz-card nzHoverable [nzCover]="coverTemplate">
-              <nz-card-meta
-                [nzTitle]="item.title"
-                [nzDescription]="item.description"
-              ></nz-card-meta>
-              <p>{{ item.price.current }}</p>
-            </nz-card>
-            <ng-template #coverTemplate>
-              <img [src]="!item.images[0] ? noImage() : item.images[0]" />
-            </ng-template>
-          </div>
-        } @empty {
-          <nz-empty [nzNotFoundContent]="'არ არის ინფორმაცია'"></nz-empty>
-        }
+        All
+        <nz-icon nzType="product" nzTheme="outline" />
+      </li>
+      @for (item of brands.value(); track $index) {
+        <li
+          routerLink
+          routerLinkActive="active"
+          [queryParams]="{ brand: item }"
+          queryParamsHandling="merge"
+        >
+          {{ item }}
+        </li>
+      }
+    </ul>
+  }
+</div>
+<main class="content">
+  @if (totalProducts.isLoading()) {
+    <nz-spin nzSize="large"></nz-spin>
+  } @else {
+    <div class="cards_container">
+      @for (item of totalProducts.value()?.products; track $index) {
+        <nz-card
+          nzHoverable
+          [routerLink]="['/product-details', item._id]"
+          [nzCover]="coverTemplate"
+        >
+          <nz-card-meta
+            [nzTitle]="item.title"
+            [nzDescription]="item.description"
+          ></nz-card-meta>
+          <p>{{ item.price.current }}</p>
+        </nz-card>
+        <ng-template #coverTemplate>
+          <img alt="example" [src]="item.images[0]" />
+        </ng-template>
+      } @empty {
+        <nz-empty [nzNotFoundContent]="'არ არის ინფორმაცია'"></nz-empty>
       }
     </div>
-    <br />
-    <nz-pagination
-      (nzPageSizeChange)="onPageSizeChange($event)"
-      (nzPageIndexChange)="onPageIndexChange($event)"
-      [nzPageIndex]="page_index()"
-      [nzTotal]="totalProducts.value()?.total"
-      nzShowSizeChanger
-      [nzPageSize]="page_size()"
-    ></nz-pagination>
-  </nz-content>
-</nz-layout>
+  }
+  <nz-pagination
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    [nzPageIndex]="page_index()"
+    [nzTotal]="totalProducts.value()?.total"
+    nzShowSizeChanger
+    [nzPageSize]="page_size()"
+  ></nz-pagination>
+</main>
+
+<!--<div class="second-nav">-->
+<!--  <nz-radio-group [ngModel]="category()?.name" nzButtonStyle="solid">-->
+<!--    @for (item of categories.value(); track $index) {-->
+<!--      <label-->
+<!--        routerLink-->
+<!--        [queryParams]="{ category_id: item.id }"-->
+<!--        queryParamsHandling="merge"-->
+<!--        nz-radio-button-->
+<!--        [nzValue]="item.name"-->
+<!--        >{{ item.name }}</label-->
+<!--      >-->
+<!--    }-->
+<!--  </nz-radio-group>-->
+<!--  <nz-button-group> </nz-button-group>-->
+<!--  <nz-pagination-->
+<!--    (nzPageSizeChange)="onPageSizeChange($event)"-->
+<!--    (nzPageIndexChange)="onPageIndexChange($event)"-->
+<!--    [nzPageIndex]="page_index()"-->
+<!--    [nzTotal]="totalProducts.value()?.total"-->
+<!--    nzShowSizeChanger-->
+<!--    [nzPageSize]="page_size()"-->
+<!--  ></nz-pagination>-->
+<!--</div>-->

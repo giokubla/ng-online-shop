@@ -1,22 +1,19 @@
-<nz-layout>
-  <nz-header>
-    <app-navbar
-      [userData]="userData()"
-      [isAuthenticated]="isAuthenticated()"
-      (signOut)="onSignOut()"
-      (signIn)="onSignIn()"
-    />
-  </nz-header>
-
-  <nz-content>
-    <router-outlet></router-outlet>
-  </nz-content>
-  @if(authorizationVisible()){
+<nav>
+  <app-navbar
+    [userData]="userData()"
+    [isAuthenticated]="isAuthenticated()"
+    (signOut)="onSignOut()"
+    (signIn)="onSignIn()"
+  />
+</nav>
+<main>
+  <router-outlet></router-outlet>
+</main>
+@if (authorizationVisible()) {
   <app-auth
     (submitLogIn)="onSubmitLogIn($event)"
     (submitSignUp)="onSubmitSignUp($event)"
     (close)="onClose()"
     [isVisible]="authorizationVisible()"
   />
-  }
-</nz-layout>
+}
