@@ -12,4 +12,7 @@ export class ProductsService {
       `https://api.everrest.educata.dev/shop/products/id/${productId}`,
     );
   }
+  productsByCategory(categoryId: string) {
+    return this.http.get(`https://api.everrest.educata.dev/shop/products/category/${categoryId}?page_index=1&page_size=5`)
+  }
 }
