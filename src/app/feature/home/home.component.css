@@ -33,6 +33,10 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+.brands-list {
+  position: sticky;
+  top: 30px;
+}
 nz-card {
   padding: 15px;
   width: 250px;
@@ -55,3 +59,5 @@ ul li.active {
   background-color: blueviolet;
   color: white;
 }
+
+

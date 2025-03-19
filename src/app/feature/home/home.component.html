@@ -41,7 +41,7 @@
           <p>{{ item.price.current }}</p>
         </nz-card>
         <ng-template #coverTemplate>
-          <img alt="example" [src]="item.images[0]" />
+          <img alt="example" [src]="item.images[0] || noImage()" />
         </ng-template>
       } @empty {
         <nz-empty [nzNotFoundContent]="'არ არის ინფორმაცია'"></nz-empty>

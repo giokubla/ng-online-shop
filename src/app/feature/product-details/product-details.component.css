@@ -3,37 +3,55 @@
   display: flex;
   gap: 10px;
   padding-inline: 20px;
+  justify-content: space-around;
 }
 
 .main-div-child {
-  width: 50%;
+  width: 40%;
 }
 
-.description-sector {
+.cards-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-around;
+  align-items: center;
 }
 
-nz-carousel {
-    width: 500px;
-    height: 500px;
-}
-
-sub {
-    color: black;
-}
-
-small {
-    color: black;
-}
 .line {
-    color: red;
-    text-decoration: line-through;
+  color: red;
+  text-decoration: line-through;
 }
 
 .price-span {
-    color: green;
+  color: green;
+}
+nz-carousel {
+  width: 500px;
+  height: 500px;
+}
+
+sub {
+  color: black;
+}
+
+small {
+  color: black;
 }
 
 img {
-    object-fit: cover;
-    object-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+  object-position: center;
+  background: transparent;
+}
+
+section {
+  gap: 10px;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
