@@ -34,10 +34,7 @@
   flex-wrap: wrap;
   gap: 9px;
 }
-.brands-list {
-  position: sticky;
-  top: 30px;
-}
+
 nz-card {
   padding: 15px;
   width: 240px;
