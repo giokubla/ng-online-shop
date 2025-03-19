@@ -1,6 +1,7 @@
 <div class="side-filter">
+  <nz-divider nzText="Brands"></nz-divider>
   @if (!brands.isLoading()) {
-    <ul class="brands-list">
+    <ul class="brands-list p-0">
       <li
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -22,10 +23,39 @@
       }
     </ul>
   }
+
+  <!--  <div>-->
+  <!--    @if (!brands.isLoading()) {-->
+  <!--      <div class="m-3">-->
+  <!--        @for (category of categories.value(); track category.id) {-->
+  <!--          <label>-->
+  <!--            <input type="radio" />-->
+  <!--            {{ category.name }}-->
+  <!--          </label>-->
+  <!--          <br />-->
+  <!--        }-->
+  <!--      </div>-->
+  <!--    }-->
+  <!--  </div>-->
+  <!--  <br />-->
+  <!--  <hr />-->
+  <!--  <br />-->
+  <nz-divider nzText="Search"></nz-divider>
+  <input nz-input type="text" />
+  <br />
+  <nz-divider nzText="Select Price"></nz-divider>
+  <div class="d-flex gap-1 align-items-center">
+    <input nz-input type="number" placeholder="from" />
+    -
+    <input nz-input type="number" placeholder="to" />
+  </div>
+  <nz-divider nzText="Rating"></nz-divider>
+  <nz-rate class="d-flex justify-content-center" [ngModel]="5"></nz-rate>
 </div>
+
 <main class="content">
   @if (totalProducts.isLoading()) {
-    <nz-spin nzSize="large"></nz-spin>
+    <!--    <nz-spin nzSize="large"></nz-spin>-->
   } @else {
     <div class="cards_container">
       @for (item of totalProducts.value()?.products; track $index) {
