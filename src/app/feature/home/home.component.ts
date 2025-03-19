@@ -12,8 +12,8 @@ import { buildParamsFromQuery } from '../../core/utils/query-params';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { NzEmptyComponent } from 'ng-zorro-antd/empty';
-import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-home',
@@ -27,9 +27,8 @@ import { FormsModule } from '@angular/forms';
     NzPaginationModule,
     NzSpinComponent,
     NzEmptyComponent,
-    NzRadioGroupComponent,
-    NzRadioComponent,
     FormsModule,
+    NzIconDirective,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

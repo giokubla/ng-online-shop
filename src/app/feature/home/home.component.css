@@ -1,47 +1,50 @@
-.logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px 24px 16px 0;
-  float: left;
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  height: 100%;
+}
+.side-filter {
+  flex: 1;
+  border: 1px solid beige;
+  padding: 20px;
+  min-height: 100%;
+}
+.content {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid beige;
+  min-height: 100%;
+  padding: 20px;
+  background: ghostwhite;
+}
+.cards_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 nz-card {
-  height: 500px;
+  padding: 15px;
   width: 250px;
+  height: 500px;
   overflow: hidden;
-}
-nz-spin {
-  width: 100%;
-}
-nz-empty {
-  width: 100%;
 }
 nz-card img {
   height: 200px;
 }
-[nz-menu] {
-  line-height: 64px;
+ul {
+  list-style-type: none;
 }
-
-nz-breadcrumb {
-  margin: 16px 0;
+ul li {
+  padding: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: 1px solid #ccccb0;
 }
-
-nz-content {
-  padding: 0 50px;
-}
-
-.inner-content {
-  background: #fff;
-  padding: 24px;
-  min-height: 280px;
-}
-
-.second-nav {
-  padding: 2rem;
-}
-
-.category-img {
-  width: 20px;
-  height: 20px;
+ul li.active {
+  background-color: blueviolet;
+  color: white;
 }
