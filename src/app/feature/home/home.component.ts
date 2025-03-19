@@ -10,10 +10,13 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { httpResource } from '@angular/common/http';
 import { buildParamsFromQuery } from '../../core/utils/query-params';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { NzEmptyComponent } from 'ng-zorro-antd/empty';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { debounceTime } from 'rxjs';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { NzDividerComponent } from 'ng-zorro-antd/divider';
+import { NzRateComponent } from 'ng-zorro-antd/rate';
 
 @Component({
   selector: 'app-home',
@@ -25,10 +28,13 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
     NzCardModule,
     RouterModule,
     NzPaginationModule,
-    NzSpinComponent,
     NzEmptyComponent,
     FormsModule,
     NzIconDirective,
+    ReactiveFormsModule,
+    NzInputDirective,
+    NzDividerComponent,
+    NzRateComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -37,13 +43,26 @@ export class HomeComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private routeQueryParams = toSignal(this.route.queryParams);
-
+  searchControl$ = new FormControl();
+  constructor() {
+    this.searchControl$.valueChanges
+      .pipe(
+        debounceTime(1000), // Wait 1 second after typing stops
+      )
+      .subscribe((value: string) => {
+        this.router.navigate([], {
+          queryParams: { keywords: value },
+          queryParamsHandling: 'merge',
+        });
+      });
+  }
   queryParams = computed(() => {
     const params = this.routeQueryParams() || {};
     return {
       page_size: Number(params['page_size']) || 10,
       page_index: Number(params['page_index']) || 1,
       brand: params['brand'],
+      keywords: params['keywords'],
       category_id: params['category_id'],
     };
   });
@@ -77,5 +96,9 @@ export class HomeComponent {
       queryParams: { page_index },
       queryParamsHandling: 'merge',
     });
+  }
+
+  onSearchInputChange($event: string) {
+    console.log($event);
   }
 }
