@@ -19,3 +19,36 @@ body {
 input:focus {
   border-color: #966f33 !important;
 }
+.ant-btn-primary {
+  background: linear-gradient(
+    to right top,
+    #966f33,
+    #ac8344,
+    #c29756,
+    #d9ac68,
+    #f0c27b
+  ); /* Your custom primary color */
+  border-color: #966f33;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: linear-gradient(
+    to right top,
+    #966f33,
+    #ac8344,
+    #c29756,
+    #d9ac68,
+    #f0c27b
+  ); /* Darker shade for hover state */
+  border-color: #966f33;
+}
+
+/* Override primary color for links */
+.ant-link {
+  color: #ff5722;
+}
+
+.ant-link:hover {
+  color: #e64a19;
+}
