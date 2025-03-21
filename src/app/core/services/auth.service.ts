@@ -15,11 +15,11 @@ export class AuthService {
 
   // Using signals instead of BehaviorSubjects
   private currentUserSignal = signal<UserDto | null>(null);
-  private isAuthenticatedSignal = signal<boolean>(false);
+  private isAuthenticatedSignal = computed(() => this.currentUserSignal());
 
   // Expose readonly signals
-  readonly user = this.currentUserSignal.asReadonly();
-  readonly isAuthenticated = computed(() => this.isAuthenticatedSignal());
+  readonly user = computed(() => this.currentUserSignal());
+  readonly isAuthenticated = computed(() => !!this.isAuthenticatedSignal());
 
   constructor(
     private http: HttpClient,
@@ -33,7 +33,6 @@ export class AuthService {
     const token = this.getToken();
     if (token) {
       // If token exists in cookie, set authenticated and fetch user
-      this.isAuthenticatedSignal.set(true);
       this.fetchCurrentUser();
     }
   }
@@ -42,7 +41,6 @@ export class AuthService {
     return this.http.post<UserToken>(`${this.apiUrl}/sign_in`, data).pipe(
       tap(({ access_token }) => {
         this.setToken(access_token);
-        this.isAuthenticatedSignal.set(true);
         this.fetchCurrentUser();
         this.router.navigate(['/']);
       }),
@@ -58,9 +56,7 @@ export class AuthService {
   logout(): void {
     // Clear user data and token
     this.currentUserSignal.set(null);
-    this.isAuthenticatedSignal.set(false);
     this.removeToken();
-    this.router.navigate(['/login']);
   }
 
   fetchCurrentUser(): void {

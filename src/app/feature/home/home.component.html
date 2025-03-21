@@ -1,5 +1,4 @@
-<section class="banner">
-</section>
+<section class="banner"></section>
 <div class="content_layout">
   <div class="side-filter">
     <nz-divider nzText="Brands"></nz-divider>
@@ -63,15 +62,24 @@
           ></nz-rate>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
-        <nz-form-control
-          [nzXs]="{ span: 24, offset: 0 }"
-          [nzSm]="{ span: 20, offset: 4 }"
+      <nz-form-item class="w-100" nzJustify="space-around">
+        <button
+          (click)="onFormFilter()"
+          nz-button
+          nzSize="large"
+          nzType="primary"
         >
-          <button (click)="onFormFilter()" nz-button nzType="primary">
-            Filter
-          </button>
-        </nz-form-control>
+          Filter
+        </button>
+        <button
+          nzSize="large"
+          nz-button
+          routerLink
+          [queryParams]="{}"
+          nzType="default"
+        >
+          Clear
+        </button>
       </nz-form-item>
     </form>
   </div>
@@ -85,17 +93,34 @@
         [class.align-items-center]="!totalProducts.value()?.total"
       >
         @for (item of totalProducts.value()?.products; track $index) {
-          <nz-card
-            nzHoverable
-            [routerLink]="['/product-details', item._id]"
-            [nzCover]="coverTemplate"
-          >
-            <nz-card-meta
-              [nzTitle]="item.title"
-              [nzDescription]="item.description.slice(0, 170) + '...'"
-            ></nz-card-meta>
-            <p>{{ item.price.current }}</p>
-          </nz-card>
+          @if (item.price.discountPercentage) {
+            <nz-ribbon nzText="discounted" nzColor="volcano">
+              <nz-card
+                nzHoverable
+                [routerLink]="['/product-details', item._id]"
+                [nzCover]="coverTemplate"
+              >
+                <nz-card-meta
+                  [nzTitle]="item.title"
+                  [nzDescription]="item.description.slice(0, 170) + '...'"
+                ></nz-card-meta>
+                <p>{{ item.price.current }}</p>
+              </nz-card>
+            </nz-ribbon>
+          } @else {
+            <nz-card
+              nzHoverable
+              [routerLink]="['/product-details', item._id]"
+              [nzCover]="coverTemplate"
+            >
+              <nz-card-meta
+                [nzTitle]="item.title"
+                [nzDescription]="item.description.slice(0, 170) + '...'"
+              ></nz-card-meta>
+              <p>{{ item.price.current }}</p>
+            </nz-card>
+          }
+
           <ng-template #coverTemplate>
             <img alt="example" [src]="item.images[0]" />
           </ng-template>

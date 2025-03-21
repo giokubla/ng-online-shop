@@ -1,10 +1,10 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { NavbarComponent } from './feature/navbar/navbar.component';
 import { AuthComponent } from './feature/auth/auth.component';
 import { AuthService } from './core/services/auth.service';
 import { SignInDto, SignUpDto } from './core/types/auth.types';
-import { UserDto } from './core/types/user.types';
 import { RouterModule } from '@angular/router';
+import { CartService } from './core/services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -15,30 +15,31 @@ import { RouterModule } from '@angular/router';
 export class AppComponent {
   title = 'ng-online-shop';
   private authService = inject(AuthService);
-  protected readonly userData = signal<UserDto | null>(null);
-  authorizationVisible = signal<boolean>(false);
-  isAuthenticated = signal<boolean>(false);
+  private cartService = inject(CartService);
+  protected readonly userData = computed(() => this.authService.user());
+  readonly quantity = computed(
+    () => this.cartService.cartInfo()?.total.quantity,
+  );
+  isAuthenticated = computed(() => this.authService.isAuthenticated());
+  loginVisible = signal(false);
   constructor() {
-    effect(() => {
-      this.userData.set(this.authService.user());
-      this.isAuthenticated.set(this.authService.isAuthenticated());
-    });
+    this.cartService.getCart().subscribe();
   }
   onSignIn() {
-    this.authorizationVisible.set(true);
+    this.loginVisible.set(true);
   }
   onClose() {
-    this.authorizationVisible.set(false);
+    this.loginVisible.set(false);
   }
   onSubmitLogIn(userInfo: SignInDto) {
     this.authService
       .login(userInfo)
-      .subscribe(() => this.authorizationVisible.set(false));
+      .subscribe(() => this.loginVisible.set(false));
   }
   onSubmitSignUp(userInfo: SignUpDto) {
     this.authService
       .signUp(userInfo)
-      .subscribe(() => this.authorizationVisible.set(false));
+      .subscribe(() => this.loginVisible.set(false));
   }
 
   onSignOut() {

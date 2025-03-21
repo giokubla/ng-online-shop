@@ -5,37 +5,42 @@
     <nz-icon nzType="shop" nzTheme="outline" />
     <h2>Online Shop</h2>
   </h1>
-  @if (!isAuthenticated()) {
-    <button
-      (click)="signIn.emit()"
-      nz-button
-      nzType="default"
-      [nzLoading]="false"
-    >
-      <nz-icon nzType="poweroff" />
-      Log In
-    </button>
-  } @else {
-    <div nz-flex nzAlign="center" nzGap="large">
-      <div nz-flex [nzGap]="'small'" nzAlign="center">
-        <nz-avatar
-          nzText="user"
-          nzIcon="user"
-          [nzSrc]="userData()?.avatar"
-        ></nz-avatar>
-        <span id="fullName" [class.show]="userData()">{{
-          userData()?.firstName + " " + userData()?.lastName | uppercase
-        }}</span>
-      </div>
+  <div>
+    @if (!isAuthenticated()) {
       <button
-        (click)="signOut.emit()"
+        (click)="signIn.emit()"
         nz-button
         nzType="default"
         [nzLoading]="false"
       >
-        <nz-icon nzType="logout" />
-        Sign Out
+        <nz-icon nzType="poweroff" />
+        Log In
       </button>
-    </div>
-  }
+    } @else {
+      <nz-badge
+        [nzCount]="quantity()"
+        (click)="drawerShow.set(true)"
+        style="margin-right: 24px"
+      >
+        <nz-avatar nzIcon="shopping-cart" [nzShape]="'square'"></nz-avatar>
+      </nz-badge>
+      <nz-avatar
+        nz-dropdown
+        [nzDropdownMenu]="menu"
+        nzText="user"
+        nzIcon="user"
+        [nzSrc]="userData()?.avatar"
+      >
+      </nz-avatar>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item>Profile</li>
+          <li nz-menu-item (click)="signOut.emit()" nzDanger>Sign Out</li>
+        </ul>
+      </nz-dropdown-menu>
+    }
+  </div>
 </div>
+@if (drawerShow()) {
+  <app-cart (close)="drawerShow.set(false)"></app-cart>
+}

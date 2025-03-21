@@ -48,10 +48,13 @@
   padding: 20px;
   background: ghostwhite;
 }
+nz-divider {
+  border-color: #ac8344!important;
+}
 .cards_container {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 20px;
 }
 nz-card {
   padding: 15px;
@@ -74,6 +77,18 @@ ul li {
   border: 1px solid #ccccb0;
 }
 ul li.active {
-  background-color: #966f33;
+  background: linear-gradient(
+    to right top,
+    #966f33,
+    #ac8344,
+    #c29756,
+    #d9ac68,
+    #f0c27b
+  );
   color: white;
+  transform: scale(1.07);
+  border-radius: 10px;
+}
+ul li:hover {
+  transform: scale(1.07);
 }

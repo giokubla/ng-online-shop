@@ -25,6 +25,7 @@ import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { httpResource } from '@angular/common/http';
 import { BaseSearchDto, Category } from '../../core/types/product.types';
 import { buildParamsFromQuery } from '../../core/utils/query-params';
+import { NzRibbonComponent } from 'ng-zorro-antd/badge';
 
 @Component({
   selector: 'app-home',
@@ -47,6 +48,7 @@ import { buildParamsFromQuery } from '../../core/utils/query-params';
     NzFormControlComponent,
     NzColDirective,
     NzRowDirective,
+    NzRibbonComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -62,6 +64,8 @@ export class HomeComponent {
       page_index: +this.routeQueryParams()?.['page_index'] || 1,
       rating: +this.routeQueryParams()?.['rating'] || 0,
       brand: this.routeQueryParams()?.['brand'],
+      price_min: +this.routeQueryParams()?.['price_min'],
+      price_max: +this.routeQueryParams()?.['price_max'],
       keywords: this.routeQueryParams()?.['keywords'],
       category_id: this.routeQueryParams()?.['category_id'],
     };
