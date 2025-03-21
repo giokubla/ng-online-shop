@@ -1,7 +1,9 @@
-<nav nz-flex [nzJustify]="'space-between'" [nzAlign]="'center'">
+<div
+  class="nav_container d-flex justify-content-between container align-items-center"
+>
   <h1 nz-flex nzGap="small">
     <nz-icon nzType="shop" nzTheme="outline" />
-    <span>Online Shop</span>
+    <h2>Online Shop</h2>
   </h1>
   @if (!isAuthenticated()) {
     <button
@@ -36,4 +38,4 @@
       </button>
     </div>
   }
-</nav>
+</div>

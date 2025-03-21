@@ -1,7 +1,6 @@
-nav{
-  height: 100%;
+.nav_container {
+  height: 64px;
 }
-
 #fullName {
   max-width: 300px;
   opacity: 0.1;
