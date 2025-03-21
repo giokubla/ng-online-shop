@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { NavbarComponent } from './feature/navbar/navbar.component';
 import { AuthComponent } from './feature/auth/auth.component';
 import { AuthService } from './core/services/auth.service';
@@ -23,7 +23,11 @@ export class AppComponent {
   isAuthenticated = computed(() => this.authService.isAuthenticated());
   loginVisible = signal(false);
   constructor() {
-    this.cartService.getCart().subscribe();
+    effect(() => {
+      if (this.isAuthenticated()) {
+        this.cartService.getCart().subscribe();
+      }
+    });
   }
   onSignIn() {
     this.loginVisible.set(true);
