@@ -48,6 +48,19 @@
   padding: 20px;
   background: ghostwhite;
 }
+
+.cardBtn {
+  /* height: 30px; */
+  font-size: 12px;
+}
+
+.numInp {
+  outline: none;
+  color: goldenrod;
+  border-color: yellow;
+  width: 30%;
+}
+
 nz-divider {
   border-color: #ac8344!important;
 }

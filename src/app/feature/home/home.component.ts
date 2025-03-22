@@ -26,6 +26,9 @@ import { httpResource } from '@angular/common/http';
 import { BaseSearchDto, Category } from '../../core/types/product.types';
 import { buildParamsFromQuery } from '../../core/utils/query-params';
 import { NzRibbonComponent } from 'ng-zorro-antd/badge';
+import { AuthService } from '../../core/services/auth.service';
+import { CartService } from '../../core/services/cart.service';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 @Component({
   selector: 'app-home',
@@ -49,15 +52,20 @@ import { NzRibbonComponent } from 'ng-zorro-antd/badge';
     NzColDirective,
     NzRowDirective,
     NzRibbonComponent,
+    NzInputNumberModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private fb = inject(NonNullableFormBuilder);
   private routeQueryParams = toSignal(this.route.queryParams);
+  public isAuthenticated = computed(() => this.authService.isAuthenticated());
+  private userInfo = computed(() => this.authService.user())
+  public quantity: number = 1
   queryParams = computed(() => {
     return {
       page_size: +this.routeQueryParams()?.['page_size'] || 10,
@@ -93,7 +101,8 @@ export class HomeComponent {
     price_max: this.fb.control<number>(0),
     rating: this.fb.control<number>(0),
   });
-  constructor() {
+  constructor(private cartService: CartService) {
+    console.log(this.userInfo())
     effect(() => {
       const params = this.queryParams();
       this.filterForm.patchValue(params);
@@ -119,5 +128,16 @@ export class HomeComponent {
       queryParams: this.filterForm.getRawValue(),
       queryParamsHandling: 'merge',
     });
+  }
+  addToCart(id: string) {
+    const data = {
+      id,
+      quantity: this.quantity
+    }
+    if(!this.userInfo()?.cartID) {
+      this.cartService.postCard(data).subscribe()
+    } else {
+      this.cartService.patchCard(data).subscribe()
+    }
   }
 }
