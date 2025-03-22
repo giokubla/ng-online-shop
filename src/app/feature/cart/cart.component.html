@@ -6,6 +6,45 @@
   (nzOnClose)="close.emit()"
 >
   <ng-container *nzDrawerContent>
+    <nz-list nzItemLayout="vertical">
+      @for (item of cartInfo.products; track $index) {
+        <nz-list-item>
+          <nz-list-item-meta>
+            <nz-list-item-meta-avatar
+              [nzSrc]="'image'"
+            ></nz-list-item-meta-avatar>
+            <nz-list-item-meta-title>
+              <a>{{ item.beforeDiscountPrice }}</a>
+            </nz-list-item-meta-title>
+            <nz-list-item-meta-description>
+              {{ item.quantity }}
+            </nz-list-item-meta-description>
+          </nz-list-item-meta>
+          {{ item.productId }}
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <nz-icon nzType="star-o" style="margin-right: 8px" />
+              156
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <nz-icon nzType="star-o" style="margin-right: 8px" />
+              156
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <nz-icon nzType="star-o" style="margin-right: 8px" />
+              2
+            </nz-list-item-action>
+          </ul>
+          <nz-list-item-extra>
+            <img
+              width="272"
+              alt="logo"
+              src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+            />
+          </nz-list-item-extra>
+        </nz-list-item>
+      }
+    </nz-list>
     <p>Some contents...</p>
     <p>Some contents...</p>
     <p>Some contents...</p>

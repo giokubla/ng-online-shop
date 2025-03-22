@@ -11,6 +11,7 @@ import {
 } from 'ng-zorro-antd/dropdown';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { CartComponent } from '../cart/cart.component';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -30,6 +31,7 @@ import { CartComponent } from '../cart/cart.component';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
+  constructor(private cartService: CartService) {}
   quantity = input<number>();
   isAuthenticated = input<boolean>();
   userData = input<UserDto | null>(null);
