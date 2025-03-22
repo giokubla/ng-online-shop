@@ -49,7 +49,7 @@
   background: ghostwhite;
 }
 nz-divider {
-  border-color: #ac8344!important;
+  border-color: #ac8344 !important;
 }
 .cards_container {
   display: flex;

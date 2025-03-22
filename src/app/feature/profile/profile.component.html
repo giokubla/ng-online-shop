@@ -1,0 +1,70 @@
+<nz-drawer
+  nzSize="large"
+  [nzClosable]="false"
+  [nzVisible]="true"
+  nzPlacement="right"
+  nzTitle="Profile"
+  (nzOnClose)="close.emit()"
+>
+  <ng-container *nzDrawerContent>
+    <div class="d-flex align-items-center gap-3">
+      <p class="title">User Avatar</p>
+      <nz-avatar [nzSrc]="user()?.avatar"></nz-avatar>
+    </div>
+    <nz-descriptions [nzColumn]="2" nzTitle="Personal">
+      <nz-descriptions-item nzTitle="Full Name" [nzSpan]="1">{{
+        user()?.firstName + " " + user()?.lastName | uppercase
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Account" [nzSpan]="1">{{
+        user()?.email
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Address" [nzSpan]="1">{{
+        user()?.address
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Phone" [nzSpan]="1">{{
+        user()?.phone
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Age" [nzSpan]="1">{{
+        user()?.age
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Gender" [nzSpan]="1">{{
+        user()?.gender
+      }}</nz-descriptions-item>
+    </nz-descriptions>
+    <nz-divider></nz-divider>
+    <nz-descriptions [nzColumn]="2" nzTitle="Company">
+      <nz-descriptions-item nzTitle="Position" [nzSpan]="1"
+        >Programmer</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="Responsibilities" [nzSpan]="1"
+        >Coding</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="Department" [nzSpan]="1"
+        >AFX</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="Supervisor" [nzSpan]="1"
+        >Lin</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="Skills" [nzSpan]="2">
+        C / C + +, data structures, software engineering, operating systems,
+        computer networks, databases, compiler theory, computer architecture,
+        Microcomputer Principle and Interface Technology, Computer English,
+        Java, ASP, etc.
+      </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-divider></nz-divider>
+    <nz-descriptions [nzColumn]="2" nzTitle="Contacts">
+      <nz-descriptions-item nzTitle="Email" [nzSpan]="1"
+        >AntDesign&#64;example.com</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="Phone Number" [nzSpan]="1"
+        >+86 181 0000 0000</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="Github" [nzSpan]="2">
+        <a href="https://github.com/NG-ZORRO/ng-zorro-antd" target="_blank"
+          >github.com/NG-ZORRO/ng-zorro-antd</a
+        >
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </ng-container>
+</nz-drawer>
