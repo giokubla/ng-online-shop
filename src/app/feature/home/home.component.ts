@@ -25,7 +25,6 @@ import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { httpResource } from '@angular/common/http';
 import { BaseSearchDto, Category } from '../../core/types/product.types';
 import { buildParamsFromQuery } from '../../core/utils/query-params';
-import { NzRibbonComponent } from 'ng-zorro-antd/badge';
 import { AuthService } from '../../core/services/auth.service';
 import { CartService } from '../../core/services/cart.service';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
@@ -51,8 +50,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     NzFormControlComponent,
     NzColDirective,
     NzRowDirective,
-    NzRibbonComponent,
-    NzInputNumberModule
+    NzInputNumberModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -64,8 +62,8 @@ export class HomeComponent {
   private fb = inject(NonNullableFormBuilder);
   private routeQueryParams = toSignal(this.route.queryParams);
   public isAuthenticated = computed(() => this.authService.isAuthenticated());
-  private userInfo = computed(() => this.authService.user())
-  public quantity: number = 1
+  private userInfo = computed(() => this.authService.user());
+  public quantity: number = 1;
   queryParams = computed(() => {
     return {
       page_size: +this.routeQueryParams()?.['page_size'] || 10,
@@ -102,7 +100,7 @@ export class HomeComponent {
     rating: this.fb.control<number>(0),
   });
   constructor(private cartService: CartService) {
-    console.log(this.userInfo())
+    console.log(this.userInfo());
     effect(() => {
       const params = this.queryParams();
       this.filterForm.patchValue(params);
@@ -132,12 +130,12 @@ export class HomeComponent {
   addToCart(id: string) {
     const data = {
       id,
-      quantity: this.quantity
-    }
-    if(!this.userInfo()?.cartID) {
-      this.cartService.postCard(data).subscribe()
+      quantity: this.quantity,
+    };
+    if (!this.userInfo()?.cartID) {
+      this.cartService.postCard(data).subscribe();
     } else {
-      this.cartService.patchCard(data).subscribe()
+      this.cartService.patchCard(data).subscribe();
     }
   }
 }

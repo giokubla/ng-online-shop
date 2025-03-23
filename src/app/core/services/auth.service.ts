@@ -39,7 +39,7 @@ export class AuthService {
 
   login(data: SignInDto) {
     return this.http.post<UserToken>(`${this.apiUrl}/sign_in`, data).pipe(
-      tap(({ access_token }) => {
+      tap(({ access_token, refresh_token }) => {
         this.setToken(access_token);
         this.fetchCurrentUser();
         this.router.navigate(['/']);

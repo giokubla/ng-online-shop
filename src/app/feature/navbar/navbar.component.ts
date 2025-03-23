@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { NzFlexDirective } from 'ng-zorro-antd/flex';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
@@ -35,7 +35,6 @@ export class NavbarComponent {
   quantity = input<number>();
   isAuthenticated = input<boolean>();
   userData = input<UserDto | null>(null);
-  cartID = computed(() => this.userData()?.cartID);
   signIn = output<void>();
   signOut = output<void>();
   drawerShow = signal(false);

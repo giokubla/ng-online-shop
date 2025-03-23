@@ -16,9 +16,16 @@ export interface ResCartProducts {
 export interface ResCartTotal {
   price: ResCartTotalPrice;
   products: number;
-  qunatity: number;
+  quantity: number;
 }
 export interface ResCartTotalPrice {
   current: number;
   beforeDiscount: number;
+}
+export interface AddProductToCartDto {
+  id: string;
+  quantity: number;
+}
+export interface ProductIdDto {
+  id: string;
 }
