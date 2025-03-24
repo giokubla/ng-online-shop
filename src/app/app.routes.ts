@@ -13,4 +13,11 @@ export const routes: Routes = [
         (c) => c.ProductDetailsComponent,
       ),
   },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./feature/error-page/error-page.component').then(
+        (c) => c.ErrorPageComponent,
+      ),
+  },
 ];

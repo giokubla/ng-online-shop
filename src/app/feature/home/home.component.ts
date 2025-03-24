@@ -155,4 +155,7 @@ export class HomeComponent {
       this.cartService.patchCard(data).subscribe();
     }
   }
+  detailPage(productId: string) {
+    this.router.navigate(['product-details', productId]);
+  }
 }

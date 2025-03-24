@@ -1,7 +1,11 @@
+.general-div {
+  margin-top: 64px;
+}
+
 .main-div {
   width: 100%;
   display: flex;
-  gap: 10px;
+  gap: 50px !important;
   padding-inline: 20px;
   justify-content: space-around;
 }
@@ -23,9 +27,8 @@
   text-decoration: line-through;
 }
 
-.price-span {
-  color: green;
-}
+
+
 nz-carousel {
   width: 500px;
   height: 500px;
@@ -55,7 +58,6 @@ section {
   justify-content: center;
   align-items: center;
 }
-
 
 /* spiner */
 
@@ -122,5 +124,25 @@ section {
 @keyframes paging {
   to {
     transform: rotateY(-180deg);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  img {
+    object-fit: contain;
+  }
+  .main-div {
+    width: 100%;
+    padding: 0;
+  }
+  .main-div-child {
+    width: 100%;
+  }
+  .main-div-child > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center !important;
+    width: 100%;
   }
 }

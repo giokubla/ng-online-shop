@@ -70,6 +70,22 @@ nz-divider {
   gap: 20px;
 }
 
+
+.discount-span {
+  padding: 0 20px 5px 5px;
+  right: 10px !important;
+  top: 0 ;
+  color: yellow;
+}
+
+
+.discount-span {
+  padding: 0 20px 5px 5px;
+  right: 10px !important;
+  top: 0 ;
+  color: yellow;
+}
+
 nz-card {
   padding: 15px;
   width: 240px;
@@ -78,6 +94,11 @@ nz-card {
 }
 nz-card img {
   height: 200px;
+<<<<<<< Updated upstream
+=======
+  object-fit: contain;
+  object-position: center;
+>>>>>>> Stashed changes
   object-fit: cover;
   object-position: center;
 }

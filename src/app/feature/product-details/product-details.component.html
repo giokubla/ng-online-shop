@@ -1,95 +1,99 @@
-@if (product && sectorCards) {
-  <div class="main-div" nz-flex nzWrap="wrap">
-    <div class="main-div-child carousel-div">
-      <nz-carousel nzAutoPlay>
-        @for (item of product.images; track $index) {
-          <div nz-carousel-content>
-            <img [src]="item" alt="" />
+<div class="general-div">
+  @if (product && sectorCards) {
+    <div class="main-div flex-column flex-lg-row" nz-flex nzWrap="wrap">
+      <div class="main-div-child d-flex justify-content-center arousel-div">
+        <nz-carousel nzAutoPlay>
+          @for (item of product.images; track $index) {
+            <div nz-carousel-content>
+              <img [src]="item" alt="" />
+            </div>
+          }
+        </nz-carousel>
+      </div>
+      <div class="main-div-child description-sector">
+        <h3 class="p-3">Technology: {{ product.category.name }} {{ product.brand }}</h3>
+        <nz-list nzBordered>
+          <nz-list-item>
+            <span nz-typography><mark>Brand</mark>: {{ product.brand }}</span>
+          </nz-list-item>
+          <nz-list-item>
+            <span nz-typography><mark>Model</mark>: {{ product.title }} </span>
+          </nz-list-item>
+          <nz-list-item>
+            <span nz-typography
+              ><mark>Made Date</mark>: {{ product.issueDate }}</span
+            >
+          </nz-list-item>
+          <nz-list-item>
+            <span nz-typography class="text-success"
+              ><mark>Price</mark>: {{ product.price.current }}$
+              @if (product.price.current !== product.price.beforeDiscount) {
+                <br />
+                <small>Previous Price: </small>
+                <small class="line"> {{ product.price.beforeDiscount }}$</small>
+                <br />
+                <sub
+                  >Discount precentenge:
+                  {{ product.price.discountPercentage }}%</sub
+                >
+              }
+            </span>
+          </nz-list-item>
+          <nz-list-item>
+            <span nz-typography
+              ><mark>Rate</mark>: {{ product.rating }} &#9733;</span
+            >
+          </nz-list-item>
+          <nz-list-item>
+            <span nz-typography><mark>Stock</mark>: {{ product.stock }}</span>
+          </nz-list-item>
+          <nz-list-item>
+            <span nz-typography
+              ><mark>Warranty</mark>: {{ product.warranty }} YEAR</span
+            >
+          </nz-list-item>
+          <nz-list-item>
+            <span nz-typography
+              ><mark>Description</mark>: {{ product.description }}</span
+            >
+          </nz-list-item>
+          <div nz-flex>
+            <button nz-button nzType="default" nzBlock>Add To Cart</button>
+            <button routerLink="/" nz-button nzType="default" nzBlock>
+              Back
+            </button>
           </div>
+        </nz-list>
+      </div>
+    </div>
+    <section>
+      <div>
+        <h2>You may be interested</h2>
+      </div>
+      <div class="cards-section">
+        @for (item of sectorCards.products; track $index) {
+          <nz-card
+            routerLink="../{{ item._id }}"
+            nzHoverable
+            style="width: 240px; height: 300px"
+            [nzCover]="coverTemplate"
+          >
+            <nz-card-meta
+              [nzTitle]="item.title"
+              [nzDescription]="item.price.current.toString()"
+            ></nz-card-meta>
+          </nz-card>
+          <ng-template #coverTemplate>
+            <img alt="example" [src]="item.images[0]" style="height: 200px" />
+          </ng-template>
         }
-      </nz-carousel>
+      </div>
+    </section>
+  } @else {
+    <div
+      class="position-absolute d-flex justify-content-center align-items-center h-100 w-100"
+    >
+      <span class="loader"></span>
     </div>
-    <div class="main-div-child description-sector">
-      <h3>Tecnology: {{ product.category.name }} {{ product.brand }}</h3>
-      <nz-list nzBordered>
-        <nz-list-item>
-          <span nz-typography><mark>Brand</mark>: {{ product.brand }}</span>
-        </nz-list-item>
-        <nz-list-item>
-          <span nz-typography><mark>Model</mark>: {{ product.title }} </span>
-        </nz-list-item>
-        <nz-list-item>
-          <span nz-typography
-            ><mark>Made Date</mark>: {{ product.issueDate }}</span
-          >
-        </nz-list-item>
-        <nz-list-item>
-          <span nz-typography class="price-span"
-            ><mark>Price</mark>: {{ product.price.current }}$
-            @if (product.price.current !== product.price.beforeDiscount) {
-              <br />
-              <small>Previous Price: </small>
-              <small class="line"> {{ product.price.beforeDiscount }}$</small>
-              <br />
-              <sub
-                >Discount precentenge:
-                {{ product.price.discountPercentage }}%</sub
-              >
-            }
-          </span>
-        </nz-list-item>
-        <nz-list-item>
-          <span nz-typography
-            ><mark>Rate</mark>: {{ product.rating }} &#9733;</span
-          >
-        </nz-list-item>
-        <nz-list-item>
-          <span nz-typography><mark>Stock</mark>: {{ product.stock }}</span>
-        </nz-list-item>
-        <nz-list-item>
-          <span nz-typography
-            ><mark>Warranty</mark>: {{ product.warranty }} YEAR</span
-          >
-        </nz-list-item>
-        <nz-list-item>
-          <span nz-typography
-            ><mark>Description</mark>: {{ product.description }}</span
-          >
-        </nz-list-item>
-        <div nz-flex>
-          <button nz-button nzType="default" nzBlock>Add To Cart</button>
-          <button routerLink="/" nz-button nzType="default" nzBlock>
-            Back
-          </button>
-        </div>
-      </nz-list>
-    </div>
-  </div>
-  <section>
-    <div>
-      <h2>You may be interested</h2>
-    </div>
-    <div class="cards-section">
-      @for (item of sectorCards.products; track $index) {
-        <nz-card
-          routerLink="../{{ item._id }}"
-          nzHoverable
-          style="width: 240px; height: 300px"
-          [nzCover]="coverTemplate"
-        >
-          <nz-card-meta
-            [nzTitle]="item.title"
-            [nzDescription]="item.price.current.toString()"
-          ></nz-card-meta>
-        </nz-card>
-        <ng-template #coverTemplate>
-          <img alt="example" [src]="item.images[0]" style="height: 200px" />
-        </ng-template>
-      }
-    </div>
-  </section>
-} @else {
-  <div class="position-absolute d-flex justify-content-center align-items-center h-100 w-100">
-    <span class="loader"></span>
-  </div>
-}
+  }
+</div>

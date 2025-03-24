@@ -93,13 +93,22 @@
         [class.align-items-center]="!totalProducts.value()?.total"
       >
         @for (item of totalProductsComputed().products; track $index) {
-          <nz-card nzHoverable [nzCover]="coverTemplate">
+          <nz-card
+            nzHoverable
+            (click)="detailPage(item._id)"
+            [nzCover]="coverTemplate"
+          >
             <nz-card-meta [nzTitle]="item.title"></nz-card-meta>
             <div class="d-flex flex-column justify-content-between h-100">
               <p class="card-body-custom">
                 {{ item.description.slice(1, 100) + "..." }}
               </p>
-              <br />
+              <p class="text-success">{{ item.price.current }} $</p>
+              @if (item.price.current != item.price.beforeDiscount) {
+                <small class="text-decoration-line-through text-danger"
+                  >{{ item.price.beforeDiscount }}$</small
+                >
+              }
               <br />
               @if (isAuthenticated()) {
                 <div class="d-flex gap-2">
@@ -120,8 +129,15 @@
               }
             </div>
           </nz-card>
-
-          <ng-template #coverTemplate>
+          <ng-template #coverTemplate class="position-realtive">
+            @if (item.price.discountPercentage) {
+              <div class="position-absolute d-flex justify-content-end">
+                <span class="discount-span bg-danger">
+                  {{item.price.discountPercentage}}% 
+                  SALE!!!
+                </span>
+              </div>
+            }
             <img alt="example" [src]="item.images[0]" />
           </ng-template>
         } @empty {
