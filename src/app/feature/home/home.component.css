@@ -70,6 +70,22 @@ nz-divider {
   gap: 20px;
 }
 
+
+.discount-span {
+  padding: 0 20px 5px 5px;
+  right: 10px !important;
+  top: 0 ;
+  color: yellow;
+}
+
+
+.discount-span {
+  padding: 0 20px 5px 5px;
+  right: 10px !important;
+  top: 0 ;
+  color: yellow;
+}
+
 nz-card {
   padding: 15px;
   width: 240px;
@@ -109,5 +125,3 @@ ul li.active {
 ul li:hover {
   transform: scale(1.07);
 }
-
-

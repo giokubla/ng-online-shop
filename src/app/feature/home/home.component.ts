@@ -114,7 +114,7 @@ export class HomeComponent {
 
   onPageSizeChange(page_size: number) {
     this.router.navigate([], {
-      queryParams: { page_size },
+      queryParams: { page_size }, 
       queryParamsHandling: 'merge',
     });
   }
@@ -133,6 +133,7 @@ export class HomeComponent {
     });
   }
   addToCart(id: string, quantity: number) {
+
     const data = {
       id,
       quantity,

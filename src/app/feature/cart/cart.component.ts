@@ -61,18 +61,7 @@ export class CartComponent {
         .patchCard({ id, quantity })
         .pipe(
           tap(() => {
-            this.nzNotificationService.success('update successfully', '', {
-              nzPlacement: 'top',
-            });
             this.loader.set(false);
-          }),
-          catchError((err) => {
-            this.loader.set(false);
-            this.nzNotificationService.error('Update Failed', err.error.error, {
-              nzPlacement: 'top',
-            });
-            this.cartService.cartResource.reload();
-            throw err;
           }),
           takeUntilDestroyed(this.destroyRef$),
         )
@@ -86,12 +75,15 @@ export class CartComponent {
       .delete({ id })
       .pipe(
         tap(() => {
-          this.nzNotificationService.success('delete successfully', '', {
-            nzPlacement: 'top',
-          });
           this.loader.set(false);
         }),
       )
       .subscribe();
+  }
+  checkOut() {
+    this.cartService.cartCheckOut().subscribe({
+      next: () => this.close.emit(),
+      error: (err) => err,
+    });
   }
 }
