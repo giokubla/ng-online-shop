@@ -103,11 +103,11 @@ ul li.active {
     #f0c27b
   );
   color: white;
-  transform: scale(1.07);
+  transform: scale(1.02);
   border-radius: 10px;
 }
 ul li:hover {
-  transform: scale(1.07);
+  transform: scale(1.02);
 }
 
 
