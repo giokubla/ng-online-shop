@@ -1,5 +1,9 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, httpResource } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  httpResource,
+} from '@angular/common/http';
 import { catchError, tap } from 'rxjs';
 import { AddProductToCartDto, ProductIdDto, ResCart } from '../types/cart.type';
 import { AuthService } from './auth.service';
@@ -37,15 +41,27 @@ export class CartService {
         tap(() => {
           this.nzNotification.success('succesfully edit cart', '', {
             nzPlacement: 'top',
-          } );
+          });
           this.cartResource.reload();
         }),
         catchError((err: HttpErrorResponse) => {
           this.nzNotification.error(err.error.error, '', {
             nzPlacement: 'top',
           });
-          throw(err)
-        })
+          throw err;
+        }),
+      );
+  }
+  cartCheckOut() {
+    return this.http
+      .post('https://api.everrest.educata.dev/shop/cart/checkout', {})
+      .pipe(
+        tap((el: any) => {
+          this.nzNotification.success(el.message, '', {
+            nzPlacement: 'top',
+          });
+          this.cartResource.reload();
+        }),
       );
   }
   delete(data: ProductIdDto) {
@@ -64,8 +80,8 @@ export class CartService {
           this.nzNotification.error(err.error.error, '', {
             nzPlacement: 'top',
           });
-          throw(err)
-        })
+          throw err;
+        }),
       );
   }
 }

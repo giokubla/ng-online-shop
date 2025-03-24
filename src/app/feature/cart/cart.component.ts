@@ -80,4 +80,10 @@ export class CartComponent {
       )
       .subscribe();
   }
+  checkOut() {
+    this.cartService.cartCheckOut().subscribe({
+      next: () => this.close.emit(),
+      error: (err) => err,
+    });
+  }
 }

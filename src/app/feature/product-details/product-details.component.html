@@ -11,7 +11,9 @@
         </nz-carousel>
       </div>
       <div class="main-div-child description-sector">
-        <h3 class="p-3">Technology: {{ product.category.name }} {{ product.brand }}</h3>
+        <h3 class="p-3">
+          Technology: {{ product.category.name }} {{ product.brand }}
+        </h3>
         <nz-list nzBordered>
           <nz-list-item>
             <span nz-typography><mark>Brand</mark>: {{ product.brand }}</span>
@@ -57,12 +59,28 @@
               ><mark>Description</mark>: {{ product.description }}</span
             >
           </nz-list-item>
-          <div nz-flex>
-            <button nz-button nzType="default" nzBlock>Add To Cart</button>
-            <button routerLink="/" nz-button nzType="default" nzBlock>
-              Back
-            </button>
-          </div>
+          @if (isAuthenticated()) {
+            <div class="d-flex gap-3 justify-content-center align-items-start">
+              <p class="text-success">Quantity</p>
+              <div>
+                <nz-input-number
+                  [(ngModel)]="productQuantity"
+                  name="quantity"
+                  nzMin="1"
+                  nzMax="10"
+                />
+                <br />
+                <br />
+              </div>
+              <p>Max: 10</p>
+            </div>
+            <div nz-flex>
+              <button nz-button (click)="addToCart(product._id)" nzType="default" nzBlock>Add To Cart</button>
+              <button routerLink="/" nz-button nzType="default" nzBlock>
+                Back
+              </button>
+            </div>
+          }
         </nz-list>
       </div>
     </div>
@@ -73,7 +91,7 @@
       <div class="cards-section">
         @for (item of sectorCards.products; track $index) {
           <nz-card
-          (click)="navigate(item._id)"
+            (click)="navigate(item._id)"
             routerLink="../{{ item._id }}"
             nzHoverable
             style="width: 240px; height: 300px"
