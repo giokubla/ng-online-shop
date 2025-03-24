@@ -132,27 +132,18 @@ export class HomeComponent {
       queryParamsHandling: 'merge',
     });
   }
-  // addToCart(id: string) {
-  //   const data = {
-  //     id,
-  //     quantity,
-  //   };
-  //   if (!this.userInfo()?.cartID) {
-  //     this.cartService.postCard(data).subscribe();
-  //   } else {
-  //     this.cartService.patchCard(data).subscribe();
-  //   }
-  // }
   addToCart(id: string, quantity: number) {
     const data = {
       id,
       quantity,
     };
-    if (!this.userInfo()?.cartID) {
-      // @todo: error handling
+    if (!Boolean(this.userInfo()?.cartID)) {
       this.cartService.postCard(data).subscribe();
     } else {
       this.cartService.patchCard(data).subscribe();
     }
+  }
+  detailPage(productId: string) {
+    this.router.navigate(['product-details', productId]);
   }
 }

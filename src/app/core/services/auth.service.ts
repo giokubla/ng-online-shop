@@ -33,7 +33,6 @@ export class AuthService {
     return this.http.post<UserToken>(`${this.apiUrl}/sign_in`, data).pipe(
       tap(({ access_token, refresh_token }) => {
         this.setToken(access_token);
-        this.router.navigate(['/']);
       }),
       catchError((error) => {
         console.error('Login failed', error);
