@@ -32,6 +32,12 @@ export class CartService {
           this.nzNotification.success('succesfully add cart', '');
           this.cartResource.reload();
         }),
+        catchError((err: HttpErrorResponse) => {
+          this.nzNotification.error(err.error.error, '', {
+            nzPlacement: 'top',
+          });
+          throw err;
+        }),
       );
   }
   patchCard(data: AddProductToCartDto) {
