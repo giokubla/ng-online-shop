@@ -1,5 +1,5 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { UserDto } from '../types/user.types';
 import { Router } from '@angular/router';
@@ -21,13 +21,17 @@ export class AuthService {
     }
     return this.apiUrl;
   });
-  readonly isAuthenticated = computed(() => !!this.user());
+  readonly isAuthenticated = computed(() => !!this.user() || !!this.token());
   readonly user = computed(() => this.userResource.value());
 
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) {}
+  ) {
+    effect(() => {
+      console.log(this.isAuthenticated());
+    });
+  }
 
   login(data: SignInDto) {
     return this.http.post<UserToken>(`${this.apiUrl}/sign_in`, data).pipe(
@@ -47,6 +51,7 @@ export class AuthService {
   logout(): void {
     this.removeToken();
     this.token.set(null);
+    this.userResource.reload();
   }
   setToken(token: string): void {
     this.token.set(token);

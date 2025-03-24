@@ -41,6 +41,7 @@ export class AppComponent {
   }
 
   onSignOut() {
+    alert('sign out');
     this.authService.logout();
   }
 }

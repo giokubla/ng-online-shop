@@ -98,39 +98,44 @@
             (click)="detailPage(item._id)"
             [nzCover]="coverTemplate"
           >
-            <nz-card-meta [nzTitle]="item.title"></nz-card-meta>
+            <nz-card-meta
+              [nzDescription]="description"
+              [nzTitle]="item.title"
+            ></nz-card-meta>
             <div class="d-flex flex-column justify-content-between h-100">
-              <p class="card-body-custom">
-                {{ item.description.slice(1, 100) + "..." }}
-              </p>
-              <p class="text-success">{{ item.price.current }} $</p>
-              @if (item.price.current != item.price.beforeDiscount) {
-                <small class="text-decoration-line-through text-danger"
-                  >{{ item.price.beforeDiscount }}$</small
-                >
-              }
-              <br />
-              @if (isAuthenticated()) {
-                <div class="d-flex gap-2">
-                  <nz-input-number
-                    [(ngModel)]="item.quantity"
-                    name="quantity"
-                    (click)="$event.stopPropagation()"
-                    nzMin="1"
-                    nzMax="10"
-                  />
-                  <button
-                    (click)="
-                      addToCart(item._id, item.quantity);
-                      $event.stopPropagation()
-                    "
-                    class="cardBtn btn btn-success"
+              <ng-template #description>
+                <p class="card-body-custom">
+                  {{ item.description.slice(1, 100) + "..." }}
+                </p>
+                <p class="text-success">{{ item.price.current }} $</p>
+                @if (item.price.current != item.price.beforeDiscount) {
+                  <small class="text-decoration-line-through text-danger"
+                    >{{ item.price.beforeDiscount }}$</small
                   >
-                    Add
-                    <nz-icon nzType="shopping-cart" nzTheme="outline" />
-                  </button>
-                </div>
-              }
+                }
+                <br />
+                @if (isAuthenticated()) {
+                  <div class="d-flex gap-2">
+                    <nz-input-number
+                      [(ngModel)]="item.quantity"
+                      name="quantity"
+                      (click)="$event.stopPropagation()"
+                      nzMin="1"
+                      nzMax="10"
+                    />
+                    <button
+                      (click)="
+                        addToCart(item._id, item.quantity);
+                        $event.stopPropagation()
+                      "
+                      class="cardBtn btn btn-success"
+                    >
+                      Add
+                      <nz-icon nzType="shopping-cart" nzTheme="outline" />
+                    </button>
+                  </div>
+                }
+              </ng-template>
             </div>
           </nz-card>
           <ng-template #coverTemplate class="position-realtive">
