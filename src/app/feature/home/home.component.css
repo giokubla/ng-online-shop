@@ -69,6 +69,7 @@ nz-divider {
   flex-wrap: wrap;
   gap: 20px;
 }
+
 nz-card {
   padding: 15px;
   width: 240px;
@@ -108,3 +109,5 @@ ul li.active {
 ul li:hover {
   transform: scale(1.07);
 }
+
+
