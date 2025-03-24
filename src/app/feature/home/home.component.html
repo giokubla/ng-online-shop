@@ -86,40 +86,40 @@
 
   <main class="content">
     @if (totalProducts.isLoading()) {
-      <!--    <nz-spin nzSize="large"></nz-spin>-->
+      <!-- <nz-spin nzSize="large"></nz-spin> -->
     } @else {
       <div
         class="cards_container h-100 justify-content-center"
         [class.align-items-center]="!totalProducts.value()?.total"
       >
-        @for (item of totalProducts.value()?.products; track $index) {
-          @if (item.price.discountPercentage) {
-            <nz-ribbon nzText="discounted" nzColor="volcano">
-              <nz-card
-                nzHoverable
-                [routerLink]="['/product-details', item._id]"
-                [nzCover]="coverTemplate"
-              >
-                <nz-card-meta
-                  [nzTitle]="item.title"
-                  [nzDescription]="item.description.slice(0, 170) + '...'"
-                ></nz-card-meta>
-                <p>{{ item.price.current }}</p>
-              </nz-card>
-            </nz-ribbon>
-          } @else {
-            <nz-card
-              nzHoverable
-              [routerLink]="['/product-details', item._id]"
-              [nzCover]="coverTemplate"
-            >
-              <nz-card-meta
-                [nzTitle]="item.title"
-                [nzDescription]="item.description.slice(0, 170) + '...'"
-              ></nz-card-meta>
-              <p>{{ item.price.current }}</p>
-            </nz-card>
-          }
+        @for (item of totalProductsComputed().products; track $index) {
+          <nz-card nzHoverable [nzCover]="coverTemplate">
+            <nz-card-meta [nzTitle]="item.title"></nz-card-meta>
+            <div class="d-flex flex-column justify-content-between h-100">
+              <p class="card-body-custom">
+                {{ item.description.slice(1, 100) + "..." }}
+              </p>
+              <br />
+              <br />
+              @if (isAuthenticated()) {
+                <div class="d-flex gap-2">
+                  <nz-input-number
+                    [(ngModel)]="item.quantity"
+                    name="quantity"
+                    nzMin="1"
+                    nzMax="10"
+                  />
+                  <button
+                    (click)="addToCart(item._id, item.quantity)"
+                    class="cardBtn btn btn-success"
+                  >
+                    Add
+                    <nz-icon nzType="shopping-cart" nzTheme="outline" />
+                  </button>
+                </div>
+              }
+            </div>
+          </nz-card>
 
           <ng-template #coverTemplate>
             <img alt="example" [src]="item.images[0]" />

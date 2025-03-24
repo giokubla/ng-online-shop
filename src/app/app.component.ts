@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { NavbarComponent } from './feature/navbar/navbar.component';
 import { AuthComponent } from './feature/auth/auth.component';
 import { AuthService } from './core/services/auth.service';
@@ -18,17 +18,11 @@ export class AppComponent {
   private cartService = inject(CartService);
   protected readonly userData = computed(() => this.authService.user());
   readonly quantity = computed(
-    () => this.cartService.cartInfo()?.total.quantity,
+    () => this.cartService.cartResource.value()?.total.quantity,
   );
   isAuthenticated = computed(() => this.authService.isAuthenticated());
   loginVisible = signal(false);
-  constructor() {
-    effect(() => {
-      if (this.isAuthenticated()) {
-        this.cartService.getCart().subscribe();
-      }
-    });
-  }
+
   onSignIn() {
     this.loginVisible.set(true);
   }

@@ -48,6 +48,19 @@
   padding: 20px;
   background: ghostwhite;
 }
+
+.cardBtn {
+  /* height: 30px; */
+  font-size: 12px;
+}
+
+.numInp {
+  outline: none;
+  color: goldenrod;
+  border-color: yellow;
+  width: 30%;
+}
+
 nz-divider {
   border-color: #ac8344 !important;
 }
@@ -75,6 +88,9 @@ ul li {
   letter-spacing: 1px;
   cursor: pointer;
   border: 1px solid #ccccb0;
+}
+.card-body-custom {
+  height: 120px;
 }
 ul li.active {
   background: linear-gradient(
