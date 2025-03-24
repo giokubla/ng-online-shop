@@ -46,10 +46,11 @@ export class CartComponent {
   loader = signal(false);
   nzNotificationService = inject(NzNotificationService);
   cart = this.cartService.cartResource;
-  discount = computed(
-    () =>
+  discount = computed(() =>
+    Math.round(
       (this.cart.value()?.total?.price?.beforeDiscount ?? 0) -
-      (this.cart.value()?.total?.price?.current ?? 0),
+        (this.cart.value()?.total?.price?.current ?? 0),
+    ),
   );
   close = output();
 

@@ -63,7 +63,6 @@ export class HomeComponent {
   private routeQueryParams = toSignal(this.route.queryParams);
   public isAuthenticated = computed(() => this.authService.isAuthenticated());
   private userInfo = computed(() => this.authService.user());
-  public quantity: number = 1;
   queryParams = computed(() => {
     return {
       page_size: +this.routeQueryParams()?.['page_size'] || 10,
@@ -87,6 +86,13 @@ export class HomeComponent {
     url: 'https://api.everrest.educata.dev/shop/products/search',
     params: buildParamsFromQuery(this.queryParams()),
   }));
+  totalProductsComputed = computed(() => ({
+    ...this.totalProducts.value(),
+    products: this.totalProducts.value()?.products.map((product) => ({
+      ...product,
+      quantity: 1,
+    })),
+  }));
   brands = httpResource<string[]>(
     () => 'https://api.everrest.educata.dev/shop/products/brands',
   );
@@ -100,7 +106,6 @@ export class HomeComponent {
     rating: this.fb.control<number>(0),
   });
   constructor(private cartService: CartService) {
-    console.log(this.userInfo());
     effect(() => {
       const params = this.queryParams();
       this.filterForm.patchValue(params);
@@ -127,12 +132,24 @@ export class HomeComponent {
       queryParamsHandling: 'merge',
     });
   }
-  addToCart(id: string) {
+  // addToCart(id: string) {
+  //   const data = {
+  //     id,
+  //     quantity,
+  //   };
+  //   if (!this.userInfo()?.cartID) {
+  //     this.cartService.postCard(data).subscribe();
+  //   } else {
+  //     this.cartService.patchCard(data).subscribe();
+  //   }
+  // }
+  addToCart(id: string, quantity: number) {
     const data = {
       id,
-      quantity: this.quantity,
+      quantity,
     };
     if (!this.userInfo()?.cartID) {
+      // @todo: error handling
       this.cartService.postCard(data).subscribe();
     } else {
       this.cartService.patchCard(data).subscribe();

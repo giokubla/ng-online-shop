@@ -92,24 +92,29 @@
         class="cards_container h-100 justify-content-center"
         [class.align-items-center]="!totalProducts.value()?.total"
       >
-        @for (item of totalProducts.value()?.products; track $index) {
+        @for (item of totalProductsComputed().products; track $index) {
           <nz-card nzHoverable [nzCover]="coverTemplate">
             <nz-card-meta [nzTitle]="item.title"></nz-card-meta>
             <div class="d-flex flex-column justify-content-between h-100">
-              <p>{{ item.description.slice(1, 100) + "..." }}</p>
-              @if (!!isAuthenticated) {
+              <p class="card-body-custom">
+                {{ item.description.slice(1, 100) + "..." }}
+              </p>
+              <br />
+              <br />
+              @if (isAuthenticated()) {
                 <div class="d-flex gap-2">
                   <nz-input-number
-                    [ngModel]="quantity"
+                    [(ngModel)]="item.quantity"
                     name="quantity"
                     nzMin="1"
                     nzMax="10"
                   />
                   <button
-                    (click)="addToCart(item._id)"
+                    (click)="addToCart(item._id, item.quantity)"
                     class="cardBtn btn btn-success"
                   >
-                    Add to Cart
+                    Add
+                    <nz-icon nzType="shopping-cart" nzTheme="outline" />
                   </button>
                 </div>
               }
