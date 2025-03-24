@@ -2,6 +2,7 @@
   <app-navbar
     [userData]="userData()"
     [isAuthenticated]="isAuthenticated()"
+    [quantity]="quantity()"
     (signOut)="onSignOut()"
     (signIn)="onSignIn()"
   />
@@ -9,11 +10,11 @@
 <main>
   <router-outlet></router-outlet>
 </main>
-@if (authorizationVisible()) {
+@if (loginVisible()) {
   <app-auth
     (submitLogIn)="onSubmitLogIn($event)"
     (submitSignUp)="onSubmitSignUp($event)"
     (close)="onClose()"
-    [isVisible]="authorizationVisible()"
+    [isVisible]="loginVisible()"
   />
 }

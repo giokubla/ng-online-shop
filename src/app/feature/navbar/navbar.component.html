@@ -1,39 +1,52 @@
-<nav nz-flex [nzJustify]="'space-between'" [nzAlign]="'center'">
+<div
+  class="nav_container d-flex justify-content-between container align-items-center"
+>
   <h1 nz-flex nzGap="small">
     <nz-icon nzType="shop" nzTheme="outline" />
-    <span>Online Shop</span>
+    <h2>Online Shop</h2>
   </h1>
-  @if (!isAuthenticated()) {
-    <button
-      (click)="signIn.emit()"
-      nz-button
-      nzType="default"
-      [nzLoading]="false"
-    >
-      <nz-icon nzType="poweroff" />
-      Log In
-    </button>
-  } @else {
-    <div nz-flex nzAlign="center" nzGap="large">
-      <div nz-flex [nzGap]="'small'" nzAlign="center">
-        <nz-avatar
-          nzText="user"
-          nzIcon="user"
-          [nzSrc]="userData()?.avatar"
-        ></nz-avatar>
-        <span id="fullName" [class.show]="userData()">{{
-          userData()?.firstName + " " + userData()?.lastName | uppercase
-        }}</span>
-      </div>
+  <div>
+    @if (!isAuthenticated()) {
       <button
-        (click)="signOut.emit()"
+        (click)="signIn.emit()"
         nz-button
         nzType="default"
         [nzLoading]="false"
       >
-        <nz-icon nzType="logout" />
-        Sign Out
+        <nz-icon nzType="poweroff" />
+        Log In
       </button>
-    </div>
-  }
-</nav>
+    } @else {
+      <nz-badge
+        [nzCount]="quantity()"
+        (click)="drawerCartShow.set(true)"
+        style="margin-right: 24px"
+      >
+        <nz-avatar nzIcon="shopping-cart" [nzShape]="'square'"></nz-avatar>
+      </nz-badge>
+      <nz-avatar
+        nz-dropdown
+        [nzDropdownMenu]="menu"
+        nzText="user"
+        nzIcon="user"
+        [nzSrc]="userData()?.avatar"
+      >
+      </nz-avatar>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item (click)="drawerProfileShow.set(true)">Profile</li>
+          <li nz-menu-item (click)="signOut.emit()" nzDanger>Sign Out</li>
+        </ul>
+      </nz-dropdown-menu>
+    }
+  </div>
+</div>
+@if (drawerCartShow()) {
+  <app-cart (close)="drawerCartShow.set(false)"></app-cart>
+}
+@if (drawerProfileShow()) {
+  <app-profile
+    [user]="userData()"
+    (close)="drawerProfileShow.set(false)"
+  ></app-profile>
+}

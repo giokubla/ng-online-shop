@@ -4,9 +4,51 @@
   margin: 0;
   padding: 0;
 }
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
 }
 body {
   background: #f6f6f5;
+}
+input:focus {
+  border-color: #966f33 !important;
+}
+.ant-btn-primary {
+  background: linear-gradient(
+    to right top,
+    #966f33,
+    #ac8344,
+    #c29756,
+    #d9ac68,
+    #f0c27b
+  ); /* Your custom primary color */
+  border-color: #966f33;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: linear-gradient(
+    to right top,
+    #966f33,
+    #ac8344,
+    #c29756,
+    #d9ac68,
+    #f0c27b
+  ); /* Darker shade for hover state */
+  border-color: #966f33;
+}
+
+/* Override primary color for links */
+.ant-link {
+  color: #ff5722;
+}
+
+.ant-link:hover {
+  color: #e64a19;
 }

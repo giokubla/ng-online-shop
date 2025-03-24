@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { computed, Injectable, signal } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { UserDto } from '../types/user.types';
 import { Router } from '@angular/router';
@@ -11,39 +11,28 @@ import { TOKEN_KEY } from '../types/token-key';
   providedIn: 'root',
 })
 export class AuthService {
+  private cookieService = inject(CookieService);
+  private token = signal<string | null>(null);
   private apiUrl = 'https://api.everrest.educata.dev/auth';
-
-  // Using signals instead of BehaviorSubjects
-  private currentUserSignal = signal<UserDto | null>(null);
-  private isAuthenticatedSignal = signal<boolean>(false);
-
-  // Expose readonly signals
-  readonly user = this.currentUserSignal.asReadonly();
-  readonly isAuthenticated = computed(() => this.isAuthenticatedSignal());
+  private readonly userResource = httpResource<UserDto>(() => {
+    const token = this.token() || this.getToken();
+    if (!token) {
+      return undefined;
+    }
+    return this.apiUrl;
+  });
+  readonly isAuthenticated = computed(() => !!this.user());
+  readonly user = computed(() => this.userResource.value());
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private cookieService: CookieService,
-  ) {
-    this.initializeAuth();
-  }
-
-  initializeAuth(): void {
-    const token = this.getToken();
-    if (token) {
-      // If token exists in cookie, set authenticated and fetch user
-      this.isAuthenticatedSignal.set(true);
-      this.fetchCurrentUser();
-    }
-  }
+  ) {}
 
   login(data: SignInDto) {
     return this.http.post<UserToken>(`${this.apiUrl}/sign_in`, data).pipe(
-      tap(({ access_token }) => {
+      tap(({ access_token, refresh_token }) => {
         this.setToken(access_token);
-        this.isAuthenticatedSignal.set(true);
-        this.fetchCurrentUser();
         this.router.navigate(['/']);
       }),
       catchError((error) => {
@@ -56,32 +45,11 @@ export class AuthService {
     return this.http.post<UserToken>(`${this.apiUrl}/sign_up`, data).pipe();
   }
   logout(): void {
-    // Clear user data and token
-    this.currentUserSignal.set(null);
-    this.isAuthenticatedSignal.set(false);
     this.removeToken();
-    this.router.navigate(['/login']);
+    this.token.set(null);
   }
-
-  fetchCurrentUser(): void {
-    this.http.get<UserDto>(`${this.apiUrl}`).subscribe({
-      next: (user) => {
-        this.currentUserSignal.set(user);
-      },
-      error: (error) => {
-        console.error('Failed to fetch user', error);
-        // If we can't fetch the user, the token might be invalid
-        if (error.status === 401) {
-          this.logout();
-        }
-      },
-    });
-  }
-
-  // Token management with cookies
   setToken(token: string): void {
-    // Set secure HttpOnly cookie with expiration (e.g., 1 day)
-    // Use { secure: true, sameSite: 'strict' } in production
+    this.token.set(token);
     const expirationDays = 1;
     this.cookieService.set(
       TOKEN_KEY,

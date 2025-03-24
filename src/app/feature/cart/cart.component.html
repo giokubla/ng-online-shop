@@ -1,0 +1,76 @@
+<nz-drawer
+  [nzClosable]="true"
+  [nzVisible]="true"
+  nzPlacement="right"
+  nzTitle="Cart"
+  (nzOnClose)="close.emit()"
+>
+  <ng-container *nzDrawerContent>
+    <div class="d-flex flex-column justify-content-between h-100">
+      <nz-list nzItemLayout="vertical">
+        @for (item of cart.value()?.products; track $index) {
+          <nz-list-item>
+            @if (loader()) {
+              <nz-skeleton
+                [nzAvatar]="true"
+                [nzActive]="true"
+                [nzTitle]="false"
+                [nzLoading]="true"
+              />
+            } @else {
+              <ng-container>
+                <nz-list-item-meta>
+                  <nz-list-item-meta-title>
+                    {{ item.pricePerQuantity | currency }}
+                    @if (item.beforeDiscountPrice !== item.pricePerQuantity) {
+                      <p class="text-decoration-line-through text-danger">
+                        {{ item.beforeDiscountPrice }}
+                      </p>
+                    }
+                  </nz-list-item-meta-title>
+                </nz-list-item-meta>
+                <ul nz-list-item-actions>
+                  <nz-list-item-action
+                    ><nz-input-number
+                      (ngModelChange)="onQuantityChange($event, item.productId)"
+                      [(ngModel)]="item.quantity"
+                      name="quantity"
+                    >
+                    </nz-input-number
+                  ></nz-list-item-action>
+                  <nz-list-item-action
+                    ><button
+                      nz-button
+                      (click)="onDelete(item.productId)"
+                      nzType="primary"
+                      nzDanger
+                    >
+                      Delete
+                    </button></nz-list-item-action
+                  >
+                </ul>
+              </ng-container>
+            }
+          </nz-list-item>
+        }
+      </nz-list>
+      <nz-card>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <p>
+              Before Discount:
+              <span class="text-decoration-line-through text-danger">{{
+                cart.value()?.total?.price?.beforeDiscount
+              }}</span>
+            </p>
+            <p>Total: {{ cart.value()?.total?.price?.current }}</p>
+            <p>
+              Saving: <span class="text-success">{{ discount() }}</span>
+            </p>
+          </div>
+          <button nz-button nzType="primary" class="px-4">Purchase</button>
+        </div>
+      </nz-card>
+    </div>
+  </ng-container>
+</nz-drawer>
