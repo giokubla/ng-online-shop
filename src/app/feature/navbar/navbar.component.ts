@@ -11,7 +11,6 @@ import {
 } from 'ng-zorro-antd/dropdown';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { CartComponent } from '../cart/cart.component';
-import { CartService } from '../../core/services/cart.service';
 import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
@@ -33,10 +32,9 @@ import { ProfileComponent } from '../profile/profile.component';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  constructor(private cartService: CartService) {}
   quantity = input<number>();
   isAuthenticated = input<boolean>();
-  userData = input<UserDto | null>(null);
+  userData = input<UserDto>();
   signIn = output<void>();
   signOut = output<void>();
   drawerCartShow = signal(false);

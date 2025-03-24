@@ -14,7 +14,7 @@ export class AuthService {
   private cookieService = inject(CookieService);
   private token = signal<string | null>(null);
   private apiUrl = 'https://api.everrest.educata.dev/auth';
-  private readonly userResource = httpResource<UserDto | null>(() => {
+  private readonly userResource = httpResource<UserDto>(() => {
     const token = this.token() || this.getToken();
     if (!token) {
       return undefined;
