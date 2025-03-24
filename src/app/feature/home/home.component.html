@@ -115,11 +115,15 @@
                   <nz-input-number
                     [(ngModel)]="item.quantity"
                     name="quantity"
+                    (click)="$event.stopPropagation()"
                     nzMin="1"
                     nzMax="10"
                   />
                   <button
-                    (click)="addToCart(item._id, item.quantity)"
+                    (click)="
+                      addToCart(item._id, item.quantity);
+                      $event.stopPropagation()
+                    "
                     class="cardBtn btn btn-success"
                   >
                     Add
@@ -133,8 +137,7 @@
             @if (item.price.discountPercentage) {
               <div class="position-absolute d-flex justify-content-end">
                 <span class="discount-span bg-danger">
-                  {{item.price.discountPercentage}}% 
-                  SALE!!!
+                  {{ item.price.discountPercentage }}% SALE!!!
                 </span>
               </div>
             }

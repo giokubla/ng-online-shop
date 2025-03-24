@@ -94,11 +94,6 @@ nz-card {
 }
 nz-card img {
   height: 200px;
-<<<<<<< Updated upstream
-=======
-  object-fit: contain;
-  object-position: center;
->>>>>>> Stashed changes
   object-fit: cover;
   object-position: center;
 }

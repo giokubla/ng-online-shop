@@ -73,6 +73,7 @@
       <div class="cards-section">
         @for (item of sectorCards.products; track $index) {
           <nz-card
+          (click)="navigate(item._id)"
             routerLink="../{{ item._id }}"
             nzHoverable
             style="width: 240px; height: 300px"

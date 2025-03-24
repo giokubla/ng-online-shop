@@ -1,13 +1,15 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { HttpClient, httpResource } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse, httpResource } from '@angular/common/http';
+import { catchError, tap } from 'rxjs';
 import { AddProductToCartDto, ProductIdDto, ResCart } from '../types/cart.type';
 import { AuthService } from './auth.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
+  nzNotification = inject(NzNotificationService);
   authService = inject(AuthService);
   cartResource = httpResource<ResCart | null>(() => {
     const user = this.authService.user();
@@ -21,18 +23,49 @@ export class CartService {
   postCard(data: AddProductToCartDto) {
     return this.http
       .post('https://api.everrest.educata.dev/shop/cart/product', data)
-      .pipe(tap(() => this.cartResource.reload()));
+      .pipe(
+        tap(() => {
+          this.nzNotification.success('succesfully add cart', '');
+          this.cartResource.reload();
+        }),
+      );
   }
   patchCard(data: AddProductToCartDto) {
     return this.http
       .patch('https://api.everrest.educata.dev/shop/cart/product', data)
-      .pipe(tap(() => this.cartResource.reload()));
+      .pipe(
+        tap(() => {
+          this.nzNotification.success('succesfully edit cart', '', {
+            nzPlacement: 'top',
+          } );
+          this.cartResource.reload();
+        }),
+        catchError((err: HttpErrorResponse) => {
+          this.nzNotification.error(err.error.error, '', {
+            nzPlacement: 'top',
+          });
+          throw(err)
+        })
+      );
   }
   delete(data: ProductIdDto) {
     return this.http
       .delete('https://api.everrest.educata.dev/shop/cart/product', {
         body: data,
       })
-      .pipe(tap(() => this.cartResource.reload()));
+      .pipe(
+        tap(() => {
+          this.nzNotification.success('succesfully deleted product', '', {
+            nzPlacement: 'top',
+          });
+          this.cartResource.reload();
+        }),
+        catchError((err: HttpErrorResponse) => {
+          this.nzNotification.error(err.error.error, '', {
+            nzPlacement: 'top',
+          });
+          throw(err)
+        })
+      );
   }
 }

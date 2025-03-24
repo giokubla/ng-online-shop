@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params, RouterModule } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { ProductsService } from '../../core/services/products.service';
 import { BaseSearchDto, Product } from '../../core/types/product.types';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
@@ -22,7 +22,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzTypographyModule,
     NzButtonModule,
     RouterModule,
-    NzCardModule
+    NzCardModule,
   ],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css',
@@ -32,6 +32,7 @@ export class ProductDetailsComponent {
   public sectorCards!: BaseSearchDto;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private service: ProductsService,
   ) {
     this.getProductId();
@@ -50,8 +51,17 @@ export class ProductDetailsComponent {
   getProductsByCategory() {
     this.service
       .productsByCategory(this.product.category.id)
-      .subscribe((el: any) => {this.sectorCards = el, 
-        console.log(this.sectorCards)
+      .subscribe((el: any) => {
+        (this.sectorCards = el), console.log(this.sectorCards);
+      });
+  }
+  navigate(id: string) {
+    this.router
+      .navigate(['../', id], {
+        relativeTo: this.route,
+      })
+      .then(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
   }
 }
