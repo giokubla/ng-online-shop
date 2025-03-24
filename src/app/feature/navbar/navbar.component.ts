@@ -12,6 +12,7 @@ import {
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { CartComponent } from '../cart/cart.component';
 import { CartService } from '../../core/services/cart.service';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-navbar',
@@ -26,6 +27,7 @@ import { CartService } from '../../core/services/cart.service';
     NzMenuItemComponent,
     NzMenuDirective,
     CartComponent,
+    ProfileComponent,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
@@ -37,5 +39,6 @@ export class NavbarComponent {
   userData = input<UserDto | null>(null);
   signIn = output<void>();
   signOut = output<void>();
-  drawerShow = signal(false);
+  drawerCartShow = signal(false);
+  drawerProfileShow = signal(false);
 }

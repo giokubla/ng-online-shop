@@ -19,7 +19,7 @@
     } @else {
       <nz-badge
         [nzCount]="quantity()"
-        (click)="drawerShow.set(true)"
+        (click)="drawerCartShow.set(true)"
         style="margin-right: 24px"
       >
         <nz-avatar nzIcon="shopping-cart" [nzShape]="'square'"></nz-avatar>
@@ -34,13 +34,19 @@
       </nz-avatar>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li nz-menu-item>Profile</li>
+          <li nz-menu-item (click)="drawerProfileShow.set(true)">Profile</li>
           <li nz-menu-item (click)="signOut.emit()" nzDanger>Sign Out</li>
         </ul>
       </nz-dropdown-menu>
     }
   </div>
 </div>
-@if (drawerShow()) {
-  <app-cart (close)="drawerShow.set(false)"></app-cart>
+@if (drawerCartShow()) {
+  <app-cart (close)="drawerCartShow.set(false)"></app-cart>
+}
+@if (drawerProfileShow()) {
+  <app-profile
+    [user]="userData()"
+    (close)="drawerProfileShow.set(false)"
+  ></app-profile>
 }

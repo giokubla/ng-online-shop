@@ -25,63 +25,63 @@
           </li>
         }
       </ul>
+      <form [formGroup]="filterForm">
+        <nz-divider nzText="Search"></nz-divider>
+        <nz-form-item>
+          <nz-form-control>
+            <input formControlName="keywords" nz-input type="text" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-divider nzText="Select Price"></nz-divider>
+        <nz-form-item nzJustify="space-between" nzAlign="middle">
+          <nz-form-control nzSpan="11">
+            <input
+              formControlName="price_min"
+              nz-input
+              type="number"
+              placeholder="from"
+            />
+          </nz-form-control>
+          -
+          <nz-form-control nzSpan="11">
+            <input
+              formControlName="price_max"
+              nz-input
+              type="number"
+              placeholder="to"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-divider nzText="Rating"></nz-divider>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-rate
+              formControlName="rating"
+              class="d-flex justify-content-center"
+            ></nz-rate>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="w-100" nzJustify="space-around">
+          <button
+            (click)="onFormFilter()"
+            nz-button
+            nzSize="large"
+            nzType="primary"
+          >
+            Filter
+          </button>
+          <button
+            nzSize="large"
+            nz-button
+            routerLink
+            [queryParams]="{}"
+            nzType="default"
+          >
+            Clear
+          </button>
+        </nz-form-item>
+      </form>
     }
-    <form [formGroup]="filterForm">
-      <nz-divider nzText="Search"></nz-divider>
-      <nz-form-item>
-        <nz-form-control>
-          <input formControlName="keywords" nz-input type="text" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-divider nzText="Select Price"></nz-divider>
-      <nz-form-item nzJustify="space-between" nzAlign="middle">
-        <nz-form-control nzSpan="11">
-          <input
-            formControlName="price_min"
-            nz-input
-            type="number"
-            placeholder="from"
-          />
-        </nz-form-control>
-        -
-        <nz-form-control nzSpan="11">
-          <input
-            formControlName="price_max"
-            nz-input
-            type="number"
-            placeholder="to"
-          />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-divider nzText="Rating"></nz-divider>
-      <nz-form-item>
-        <nz-form-control>
-          <nz-rate
-            formControlName="rating"
-            class="d-flex justify-content-center"
-          ></nz-rate>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item class="w-100" nzJustify="space-around">
-        <button
-          (click)="onFormFilter()"
-          nz-button
-          nzSize="large"
-          nzType="primary"
-        >
-          Filter
-        </button>
-        <button
-          nzSize="large"
-          nz-button
-          routerLink
-          [queryParams]="{}"
-          nzType="default"
-        >
-          Clear
-        </button>
-      </nz-form-item>
-    </form>
   </div>
 
   <main class="content">
